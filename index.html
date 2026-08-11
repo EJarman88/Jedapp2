@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EdApp — Sample Session</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F6F1E8; --cream-card:#FFFEFB; --ink:#2C2620; --ink-soft:#6B6258;
+    --terracotta:#C1704F; --terracotta-soft:#EFDCCF; --sage:#7C9270; --sage-soft:#DCE5D3;
+    --gold:#C99A3E; --line:#E7DFD1; --amber:#C98A3E; --red-soft:#E8C4B8;
+  }
+  *{box-sizing:border-box;}
+  body{ margin:0; font-family:'Inter',sans-serif; background:#EDE6D8; color:var(--ink); padding:40px; display:flex; justify-content:center; }
+  .stagehead{ position:fixed; top:0; left:0; right:0; text-align:center; padding:14px; background:#EDE6D8; z-index:50; font-size:12px; color:var(--ink-soft); font-weight:600; letter-spacing:.03em; }
+  .phone{ width:390px; height:820px; background:var(--cream); border-radius:44px; box-shadow:0 30px 60px -20px rgba(44,38,32,.35), 0 0 0 10px #1c1712; overflow:hidden; position:relative; margin-top:40px; }
+  .screen{ height:100%; display:none; flex-direction:column; }
+  .screen.active{ display:flex; }
+  .statusbar{ display:flex; justify-content:space-between; align-items:center; padding:18px 26px 6px; font-size:13px; font-weight:600; flex-shrink:0; }
+
+  /* INTRO */
+  .intro-body{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:30px; text-align:center; }
+  .intro-body .badge{ font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--terracotta); background:var(--terracotta-soft); padding:6px 16px; border-radius:20px; margin-bottom:20px; }
+  .intro-body h1{ font-family:'Fraunces',serif; font-size:24px; font-weight:600; margin:0 0 10px; line-height:1.3; }
+  .intro-body p{ font-size:13.5px; color:var(--ink-soft); line-height:1.6; margin:0 0 30px; max-width:280px; }
+  .start-btn{ background:var(--terracotta); color:#fff; border:none; border-radius:14px; padding:16px 40px; font-weight:600; font-size:15px; cursor:pointer; }
+  .intro-list{ text-align:left; margin-top:24px; font-size:12.5px; color:var(--ink-soft); }
+  .intro-list div{ margin-bottom:6px; display:flex; gap:8px; }
+
+  /* LESSON */
+  .topbar{ display:flex; align-items:center; gap:12px; padding:10px 22px 6px; flex-shrink:0; }
+  .back-btn{ width:32px;height:32px;border-radius:50%; background:var(--cream-card); display:flex;align-items:center;justify-content:center; border:1px solid var(--line); font-size:15px; flex-shrink:0; cursor:pointer; }
+  .lesson-meta{ flex:1; }
+  .lesson-meta .subj-tag{ font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--terracotta); }
+  .lesson-meta .title{ font-family:'Fraunces',serif; font-weight:600; font-size:14.5px; margin-top:2px; }
+  .read-aloud-btn{ width:34px; height:34px; border-radius:50%; background:var(--cream-card); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; cursor:pointer; }
+  .progress-strip{ height:5px; background:#EFE9DC; border-radius:4px; margin:0 22px 14px; overflow:hidden; flex-shrink:0; }
+  .progress-strip .fill{ height:100%; background:var(--terracotta); border-radius:4px; transition:width .3s ease; }
+
+  .tip-line{ display:flex; align-items:flex-start; gap:10px; padding:0 22px 14px; flex-shrink:0; }
+  .tip-line .ic{ font-size:14px; margin-top:1px; flex-shrink:0; }
+  .tip-line .txt{ font-size:12px; line-height:1.5; color:var(--ink-soft); font-style:italic; }
+
+  .lesson-body{ flex:1; overflow-y:auto; padding:0 22px 16px; }
+  .content-card{ background:var(--cream-card); border:1px solid var(--line); border-radius:16px; padding:18px 20px; margin-bottom:14px; }
+  .content-card h3{ font-family:'Fraunces',serif; font-size:15px; font-weight:600; margin:0 0 8px; }
+  .content-card p{ font-size:13.5px; line-height:1.65; color:#4A423A; margin:0 0 10px; }
+  .content-card p:last-child{ margin-bottom:0; }
+  .vocab{ text-decoration:underline; text-decoration-style:dotted; text-decoration-color:var(--terracotta); text-underline-offset:3px; font-weight:600; }
+  .standard-tag{ display:inline-block; font-size:10px; font-weight:600; color:var(--ink-soft); background:#EFE9DC; padding:3px 9px; border-radius:8px; margin-top:8px; }
+
+  .check-card{ background:var(--terracotta-soft); border-radius:16px; padding:18px 20px; }
+  .check-card .label{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:#8A4A30; margin-bottom:10px; }
+  .check-card .q{ font-family:'Fraunces',serif; font-size:14.5px; font-weight:500; margin-bottom:14px; line-height:1.4; }
+  .opt{ display:flex; align-items:center; gap:10px; background:var(--cream-card); border:1.5px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:9px; font-size:13px; font-weight:500; cursor:pointer; transition:all .15s ease; }
+  .opt:hover{ border-color:var(--terracotta); }
+  .opt.correct{ border-color:var(--sage); background:#EAF0E5; }
+  .opt.incorrect{ border-color:#C1704F; background:var(--red-soft); }
+  .opt .letter{ width:22px; height:22px; border-radius:50%; background:#EFE9DC; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; }
+  .opt.correct .letter{ background:var(--sage); color:#fff; }
+  .opt.incorrect .letter{ background:#C1704F; color:#fff; }
+  .feedback{ display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; margin-top:8px; line-height:1.4; }
+  .feedback.good{ color:#3D4E33; }
+  .feedback.bad{ color:#8A4A30; }
+
+  .lesson-nav{ padding:12px 22px 22px; flex-shrink:0; }
+  .next-btn{ width:100%; background:var(--terracotta); color:#fff; border:none; border-radius:14px; padding:15px; font-weight:600; font-size:14px; cursor:pointer; opacity:0.4; pointer-events:none; transition:opacity .2s ease; }
+  .next-btn.enabled{ opacity:1; pointer-events:auto; }
+
+  /* PRACTICE */
+  .practice-top{ display:flex; align-items:center; justify-content:space-between; padding:12px 22px 10px; flex-shrink:0; }
+  .exit-x{ font-size:18px; color:var(--ink-soft); cursor:pointer; }
+  .timer{ display:flex; align-items:center; gap:6px; background:var(--cream-card); border:1px solid var(--line); border-radius:20px; padding:6px 14px; font-size:13px; font-weight:700; }
+  .timer.warn{ color:#B5533A; border-color:#E8C4B8; background:var(--red-soft); }
+  .timer .dot{ width:7px; height:7px; border-radius:50%; background:var(--amber); }
+  .timer.warn .dot{ background:#B5533A; }
+  .qcounter{ font-size:12px; color:var(--ink-soft); font-weight:600; }
+
+  .practice-progress{ display:flex; gap:4px; padding:0 22px 16px; flex-shrink:0; }
+  .practice-progress .seg{ flex:1; height:4px; border-radius:3px; background:#EFE9DC; }
+  .practice-progress .seg.done{ background:var(--sage); }
+  .practice-progress .seg.current{ background:var(--terracotta); }
+
+  .practice-body{ flex:1; overflow-y:auto; padding:0 22px 16px; }
+  .stimulus{ background:var(--cream-card); border:1px solid var(--line); border-radius:16px; padding:15px 17px; margin-bottom:16px; font-size:12.5px; line-height:1.6; color:#4A423A; }
+  .stimulus .src{ font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-soft); margin-bottom:7px; }
+  .question-text{ font-family:'Fraunces',serif; font-size:15.5px; font-weight:500; line-height:1.4; margin-bottom:16px; }
+
+  .opt2{ display:flex; align-items:center; gap:12px; background:var(--cream-card); border:1.5px solid var(--line); border-radius:14px; padding:13px 16px; margin-bottom:9px; font-size:13px; font-weight:500; cursor:pointer; transition:all .15s ease; }
+  .opt2:hover{ border-color:var(--terracotta); }
+  .opt2.selected{ border-color:var(--terracotta); background:var(--terracotta-soft); }
+  .opt2 .letter{ width:24px; height:24px; border-radius:50%; border:1.5px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; background:var(--cream-card); }
+  .opt2.selected .letter{ background:var(--terracotta); color:#fff; border-color:var(--terracotta); }
+
+  .practice-nav{ display:flex; gap:10px; padding:12px 22px 22px; flex-shrink:0; }
+  .flag-btn{ flex:0 0 auto; background:var(--cream-card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; font-weight:600; font-size:12.5px; color:var(--ink-soft); cursor:pointer; }
+  .submit-btn{ flex:1; background:var(--terracotta); color:#fff; border:none; border-radius:14px; padding:14px; font-weight:600; font-size:14px; cursor:pointer; opacity:0.4; pointer-events:none; transition:opacity .2s ease; }
+  .submit-btn.enabled{ opacity:1; pointer-events:auto; }
+
+  /* RESULTS */
+  .results-body{ flex:1; display:flex; flex-direction:column; align-items:center; padding:36px 26px; text-align:center; overflow-y:auto; }
+  .score-ring{ width:130px; height:130px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:20px; position:relative; }
+  .score-ring .inner{ width:104px; height:104px; border-radius:50%; background:var(--cream-card); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .score-ring .inner .n{ font-family:'Fraunces',serif; font-size:30px; font-weight:600; }
+  .score-ring .inner .of{ font-size:11px; color:var(--ink-soft); }
+  .results-body h2{ font-family:'Fraunces',serif; font-size:20px; font-weight:600; margin:0 0 8px; }
+  .results-body p{ font-size:13px; color:var(--ink-soft); line-height:1.6; margin:0 0 22px; max-width:280px; }
+  .results-breakdown{ width:100%; background:var(--cream-card); border:1px solid var(--line); border-radius:16px; padding:16px 18px; text-align:left; margin-bottom:20px; }
+  .rb-row{ display:flex; align-items:center; gap:10px; padding:8px 0; font-size:13px; border-bottom:1px solid var(--line); }
+  .rb-row:last-child{ border-bottom:none; }
+  .rb-row .rq{ flex:1; }
+  .rb-row .rmark{ font-size:15px; }
+  .quote-card{ background:var(--sage-soft); border-radius:14px; padding:14px 16px; font-family:'Fraunces',serif; font-style:italic; font-size:12.5px; line-height:1.5; color:#33402C; margin-bottom:22px; }
+  .quote-attr{ display:block; font-family:'Inter',sans-serif; font-style:normal; font-size:10.5px; font-weight:600; margin-top:8px; color:#4A5741; }
+  .restart-btn{ background:var(--terracotta); color:#fff; border:none; border-radius:14px; padding:14px 32px; font-weight:600; font-size:13.5px; cursor:pointer; }
+
+  .notes{ max-width:390px; margin:30px auto 0; background:#FFFEFB; border:1px solid #E7DFD1; border-radius:16px; padding:20px 22px; font-size:12.5px; line-height:1.6; color:#6B6258; }
+  .notes h2{ font-family:'Fraunces',serif; font-size:15px; margin:0 0 8px; color:#2C2620; }
+
+  /* HOME SCREEN */
+  .home-top{ display:flex; justify-content:space-between; align-items:flex-start; padding:16px 24px 8px; flex-shrink:0; }
+  .brand{ font-family:'Fraunces',serif; font-weight:600; font-size:19px; color:var(--terracotta); letter-spacing:-.01em; }
+  .avatar{ width:38px;height:38px;border-radius:50%; background:var(--sage-soft); display:flex;align-items:center;justify-content:center; font-size:15px;font-weight:600; color:var(--ink); border:2px solid var(--cream-card); cursor:pointer; }
+  .home-body{ flex:1; overflow-y:auto; padding:6px 24px 100px; }
+  .greeting{ font-family:'Fraunces',serif; font-size:22px; font-weight:500; margin:8px 0 3px; }
+  .greeting-sub{ color:var(--ink-soft); font-size:13px; margin:0 0 18px; }
+  .hcard{ background:var(--cream-card); border-radius:18px; padding:17px 19px; margin-bottom:14px; border:1px solid var(--line); }
+  .hcard-title{ font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); margin:0 0 12px; }
+  .agenda-item{ display:flex; align-items:center; gap:11px; padding:10px 0; border-bottom:1px solid var(--line); cursor:pointer; }
+  .agenda-item:last-child{ border-bottom:none; padding-bottom:0; }
+  .agenda-item:first-child{ padding-top:0; }
+  .agenda-check{ width:21px;height:21px;border-radius:50%; border:1.5px solid var(--line); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:11px; }
+  .agenda-check.done{ background:var(--sage); border-color:var(--sage); color:#fff; }
+  .agenda-txt{ flex:1; font-size:13px; font-weight:500; }
+  .agenda-txt .carry{ font-style:italic; font-weight:400; color:var(--ink-soft); font-size:11px; margin-left:6px; }
+  .agenda-sub{ font-size:11px; color:var(--ink-soft); margin-top:1px; }
+  .agenda-arrow{ color:var(--ink-soft); font-size:13px; }
+  .subject-row{ display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+  .subject-row:last-child{ margin-bottom:0; }
+  .subject-label{ font-size:12.5px; font-weight:500; width:76px; flex-shrink:0; }
+  .bar-track{ flex:1; height:7px; background:#EFE9DC; border-radius:6px; overflow:hidden; }
+  .bar-fill{ height:100%; border-radius:6px; background:var(--terracotta); transition:width .5s ease; }
+  .continue-card{ background:linear-gradient(135deg,#EFE4D4,var(--cream-card)); border-radius:18px; padding:18px 19px; margin-bottom:14px; border:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; cursor:pointer; }
+  .continue-card .txt strong{ display:block; font-size:14px; margin-bottom:3px; font-family:'Fraunces',serif; font-weight:600; }
+  .continue-card .txt span{ font-size:12px; color:var(--ink-soft); }
+  .continue-arrow{ width:32px;height:32px; border-radius:50%; background:var(--terracotta); color:#fff; display:flex;align-items:center;justify-content:center; font-size:15px; flex-shrink:0; }
+  .quote-card-home{ background:var(--sage-soft); border-radius:18px; padding:16px 18px; margin-bottom:14px; font-family:'Fraunces',serif; font-style:italic; font-size:13px; line-height:1.5; color:#33402C; }
+  .quote-attr-home{ display:block; font-family:'Inter',sans-serif; font-style:normal; font-size:10.5px; font-weight:600; margin-top:8px; color:#4A5741; }
+  .tabbar{ position:absolute; bottom:0; left:0; right:0; background:var(--cream-card); border-top:1px solid var(--line); display:flex; justify-content:space-around; padding:11px 8px 18px; }
+  .tab{ display:flex; flex-direction:column; align-items:center; gap:3px; font-size:10px; color:var(--ink-soft); font-weight:500; cursor:pointer; }
+  .tab.active{ color:var(--terracotta); font-weight:600; }
+  .tab .ic{ font-size:17px; }
+  .toast{ position:absolute; left:50%; bottom:100px; transform:translateX(-50%) translateY(10px); background:#2C2620; color:#fff; padding:11px 22px; border-radius:30px; font-size:12.5px; font-weight:600; opacity:0; transition:opacity .3s ease, transform .3s ease; pointer-events:none; white-space:nowrap; z-index:20; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="stagehead">Click through as Jalesa would — this is a real, working sample experience</div>
+
+<div>
+<div class="phone">
+
+  <!-- HOME SCREEN (real entry point) -->
+  <div class="screen active" id="s-home">
+    <div class="statusbar"><span>9:41</span><span>●●●●  📶  🔋</span></div>
+    <div class="home-top">
+      <div class="brand">EdApp</div>
+      <div class="avatar" onclick="goTo('s-intro')">J</div>
+    </div>
+    <div class="home-body">
+      <div class="greeting" id="homeGreeting">Welcome back, Jalesa</div>
+      <p class="greeting-sub">Tuesday · Day 14 of your plan</p>
+
+      <div class="hcard">
+        <p class="hcard-title">Today</p>
+        <div class="agenda-item" onclick="goTo('s-lesson1')">
+          <div class="agenda-check" id="ag1check"></div>
+          <div class="agenda-txt">Claims &amp; Evidence lesson<div class="agenda-sub">RLA · Reading Comprehension</div></div>
+          <span class="agenda-arrow">›</span>
+        </div>
+        <div class="agenda-item" onclick="goTo('s-practice-intro')">
+          <div class="agenda-check">↻</div>
+          <div class="agenda-txt">Timed practice set<span class="carry">carryover</span><div class="agenda-sub">5 questions · mixed subjects</div></div>
+          <span class="agenda-arrow">›</span>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-check"></div>
+          <div class="agenda-txt">Math: Linear equations<div class="agenda-sub">Not started</div></div>
+          <span class="agenda-arrow">›</span>
+        </div>
+      </div>
+
+      <div class="hcard">
+        <p class="hcard-title">Your progress</p>
+        <div class="subject-row"><span class="subject-label">RLA</span><div class="bar-track"><div class="bar-fill" style="width:78%"></div></div></div>
+        <div class="subject-row"><span class="subject-label">Math</span><div class="bar-track"><div class="bar-fill" style="width:45%"></div></div></div>
+        <div class="subject-row"><span class="subject-label">Science</span><div class="bar-track"><div class="bar-fill" style="width:60%"></div></div></div>
+        <div class="subject-row"><span class="subject-label">Soc. Studies</span><div class="bar-track"><div class="bar-fill" style="width:30%"></div></div></div>
+      </div>
+
+      <div class="continue-card" onclick="goTo('s-lesson1')">
+        <div class="txt"><strong>Continue where you left off</strong><span>RLA · Claims &amp; Evidence</span></div>
+        <div class="continue-arrow">→</div>
+      </div>
+
+      <div class="quote-card-home">
+        "If you can't fly then run, if you can't run then walk, if you can't walk then crawl, but whatever you do you have to keep moving forward."
+        <span class="quote-attr-home">— Martin Luther King Jr.</span>
+      </div>
+    </div>
+    <div class="tabbar">
+      <div class="tab active"><span class="ic">📘</span>Lessons</div>
+      <div class="tab" onclick="goTo('s-ask')"><span class="ic">💬</span>Ask</div>
+      <div class="tab" onclick="goTo('s-practice-intro')"><span class="ic">📊</span>Practice</div>
+      <div class="tab" onclick="goTo('s-results')"><span class="ic">💛</span>Progress</div>
+    </div>
+    <div class="toast" id="homeToast">✓ Nice work — progress updated</div>
+  </div>
+
+  <!-- ASK ME (ALMOST) ANYTHING placeholder -->
+  <div class="screen" id="s-ask">
+    <div class="statusbar"><span>9:41</span><span>●●●●  📶  🔋</span></div>
+    <div class="topbar"><div class="back-btn" onclick="goTo('s-home')">←</div><div class="lesson-meta"><div class="title" style="font-size:16px">Ask Me (Almost) Anything</div></div></div>
+    <div class="intro-body">
+      <p style="max-width:280px;">Upload a photo of a problem from outside the app, or start a separate, unmonitored conversation.</p>
+      <div style="display:flex; flex-direction:column; gap:12px; width:100%; margin-top:10px;">
+        <button class="start-btn" style="width:100%;" onclick="alert('In the real app, this opens the camera/upload flow.')">📷 Upload or Photograph a Problem</button>
+        <button class="start-btn" style="width:100%; background:var(--cream-card); color:var(--ink); border:1.5px solid var(--line);" onclick="alert('This opens a separate conversation, outside EdApp.')">💬 Talk to Claude</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTRO / ABOUT THIS DEMO -->
+  <div class="screen" id="s-intro">
+    <div class="statusbar"><span>9:41</span><span>●●●●  📶  🔋</span></div>
+    <div class="topbar"><div class="back-btn" onclick="goTo('s-home')">←</div><div class="lesson-meta"><div class="title" style="font-size:16px">About this demo</div></div></div>
+    <div class="intro-body">
+      <div class="badge">Sample Session</div>
+      <h1>You're exploring<br>as Jalesa would</h1>
+      <p>Tap into today's agenda, try the lesson, or jump to timed practice — this is a working sample, not just screenshots.</p>
+      <button class="start-btn" onclick="goTo('s-home')">Back to Home</button>
+      <div class="intro-list">
+        <div>📘 &nbsp; Lesson: Claims &amp; Evidence</div>
+        <div>⏱️ &nbsp; Timed practice: 5 questions</div>
+        <div>📊 &nbsp; Results &amp; feedback at the end</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LESSON SCREEN 1 -->
+  <div class="screen" id="s-lesson1">
+    <div class="statusbar"><span>9:41</span><span>●●●●  📶  🔋</span></div>
+    <div class="topbar">
+      <div class="back-btn" onclick="goTo('s-home')">←</div>
+      <div class="lesson-meta">
+        <div class="subj-tag">RLA · Reading Comprehension</div>
+        <div class="title">Claims &amp; Evidence</div>
+      </div>
+      <div class="read-aloud-btn" onclick="alert('In the real app, this reads the lesson aloud.')">🔊</div>
+    </div>
+    <div class="progress-strip"><div class="fill" style="width:30%"></div></div>
+    <div class="tip-line"><span class="ic">💡</span><span class="txt">Take your time — you don't need to catch everything on the first read.</span></div>
+
+    <div class="lesson-body">
+      <div class="content-card">
+        <h3>What's a claim vs. evidence?</h3>
+        <p>A <span class="vocab">claim</span> is what a writer wants you to believe. <span class="vocab">Evidence</span> is what backs it up — facts, examples, or data.</p>
+        <p>Good readers ask: "What is this person trying to convince me of, and what are they using to prove it?"</p>
+        <span class="standard-tag">RLA.2.a — Determine central ideas</span>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="next-btn enabled" onclick="goTo('s-lesson2')">Continue</button>
+    </div>
+  </div>
+
+  <!-- LESSON SCREEN 2: embedded check -->
+  <div class="screen" id="s-lesson2">
+    <div class="statusbar"><span>9:41</span><span>●●●●  📶  🔋</span></div>
+    <div class="topbar">
+      <div class="back-btn" onclick="goTo('s-lesson1')">←</div>
+      <div class="lesson-meta">
+        <div class="subj-tag">RLA · Reading Comprehension</div>
+        <div class="title">Claims &amp; Evidence</div>
+      </div>
+      <div class="read-aloud-btn">🔊</div>
+    </div>
+    <div class="progress-strip"><div class="fill" style="width:65%"></div></div>
+
+    <div class="lesson-body">
+      <div class="check-card">
+        <div class="label">Quick check</div>
+        <div class="q">"Overnight shift work should be limited to 8 hours — hospitals that capped shifts at 8 hours saw 30% fewer medical errors." What is the claim?</div>
+        <div class="opt" data-correct="false" onclick="lessonAnswer(this,false)"><span class="letter">A</span>Hospitals track medical errors</div>
+        <div class="opt" data-correct="true" onclick="lessonAnswer(this,true)"><span class="letter">B</span>Overnight shifts should be capped at 8 hours</div>
+        <div class="opt" data-correct="false" onclick="lessonAnswer(this,false)"><span class="letter">C</span>Errors dropped by 30%</div>
+        <div class="feedback-slot"></div>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="next-btn" id="lesson2-next" onclick="goTo('s-practice-intro')">Continue to Practice</button>
+    </div>
+  </div>
+
+  <!-- PRACTICE INTRO -->
+  <div class="screen" id="s-practice-intro">
+    <div class="statusbar"><span>9:41</span><span>●●●●  📶  🔋</span></div>
+    <div class="intro-body">
+      <div class="badge" style="background:var(--sage-soft); color:#3D4E33;">Confidence check-in</div>
+      <h1>Ready for timed practice?</h1>
+      <p>5 questions, 5 minutes — same pacing pressure as the real GED. How are you feeling about this one?</p>
+      <div style="display:flex; gap:10px; margin-bottom:26px;">
+        <button onclick="startTimer()" style="background:var(--cream-card); border:1.5px solid var(--line); border-radius:12px; padding:10px 16px; font-size:22px; cursor:pointer;">😟</button>
+        <button onclick="startTimer()" style="background:var(--cream-card); border:1.5px solid var(--line); border-radius:12px; padding:10px 16px; font-size:22px; cursor:pointer;">😐</button>
+        <button onclick="startTimer()" style="background:var(--terracotta-soft); border:1.5px solid var(--terracotta); border-radius:12px; padding:10px 16px; font-size:22px; cursor:pointer;">🙂</button>
+        <button onclick="startTimer()" style="background:var(--cream-card); border:1.5px solid var(--line); border-radius:12px; padding:10px 16px; font-size:22px; cursor:pointer;">😄</button>
+      </div>
+      <button class="start-btn" onclick="startTimer()">Begin Practice Set</button>
+    </div>
+  </div>
+
+  <!-- PRACTICE QUESTIONS (5, one shown at a time via JS) -->
+  <div class="screen" id="s-practice">
+    <div class="statusbar"><span>9:41</span><span>●●●●  📶  🔋</span></div>
+    <div class="practice-top">
+      <span class="exit-x" onclick="goTo('s-home')">✕</span>
+      <span class="qcounter" id="qcounter">Question 1 of 5</span>
+      <div class="timer" id="timerBox"><span class="dot"></span><span id="timerText">5:00</span></div>
+    </div>
+    <div class="practice-progress" id="progressSegs"></div>
+
+    <div class="practice-body" id="practiceBody">
+      <!-- populated by JS -->
+    </div>
+
+    <div class="practice-nav">
+      <button class="flag-btn">🚩 Flag</button>
+      <button class="submit-btn" id="submitBtn" onclick="nextQuestion()">Next Question</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="screen" id="s-results">
+    <div class="statusbar"><span>9:41</span><span>●●●●  📶  🔋</span></div>
+    <div class="results-body">
+      <div class="score-ring" id="scoreRing"><div class="inner"><div class="n" id="scoreNum">0/5</div><div class="of">correct</div></div></div>
+      <h2 id="resultsHeadline">Nice work</h2>
+      <p id="resultsSub">Here's how this practice set went.</p>
+      <div class="results-breakdown" id="resultsBreakdown"></div>
+      <div class="quote-card">
+        "If you can't fly then run, if you can't run then walk, if you can't walk then crawl, but whatever you do you have to keep moving forward."
+        <span class="quote-attr">— Martin Luther King Jr.</span>
+      </div>
+      <button class="restart-btn" onclick="backToHomeUpdated()">Back to Home</button>
+      <div style="margin-top:12px;"><span style="font-size:12px; color:var(--ink-soft); text-decoration:underline; cursor:pointer;" onclick="resetDemo()">Try it again from the start</span></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="notes">
+  <h2>What dad is seeing</h2>
+  This starts at Jalesa's actual Home Screen — today's agenda (with a carried-over item, marked simply in italics), progress bars, "continue where you left off," and the tab bar. Tapping into a lesson, going through the confidence check-in, and completing timed practice all update the Home Screen state when you return. Nothing here is saved or reported anywhere; it's a demo only. Sample content is original, GED-format material — not actual copyrighted GED questions.
+</div>
+</div>
+
+<script>
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function lessonAnswer(el, isCorrect){
+  document.querySelectorAll('#s-lesson2 .opt').forEach(o => o.style.pointerEvents='none');
+  const slot = document.querySelector('#s-lesson2 .feedback-slot');
+  if(isCorrect){
+    el.classList.add('correct');
+    slot.innerHTML = "<div class=\"feedback good\">✓ Right — that's the position being argued. The error-rate drop is the evidence.</div>";
+  } else {
+    el.classList.add('incorrect');
+    document.querySelector('#s-lesson2 .opt[data-correct="true"]').classList.add('correct');
+    slot.innerHTML = "<div class=\"feedback bad\">Not quite — that's evidence, not the claim itself. The correct answer is highlighted above.</div>";
+  }
+  document.getElementById('lesson2-next').classList.add('enabled');
+}
+
+// ---- Practice test data (original sample content, GED-format) ----
+const questions = [
+  {
+    subj: "RLA · Reading Comprehension",
+    stimulus: "A city planner writes: \"Our downtown parking garages sit half-empty on weekdays while street parking overflows. Converting one garage floor to bike storage would ease congestion without losing much parking capacity.\"",
+    q: "Which sentence from the passage is evidence, not the claim?",
+    opts: ["Converting one floor to bike storage would ease congestion", "Our downtown parking garages sit half-empty on weekdays", "Bike storage should replace all parking", "Congestion is a citywide problem"],
+    correct: 1
+  },
+  {
+    subj: "Math Reasoning",
+    stimulus: "A rectangular garden is 12 feet long and 8 feet wide. The gardener wants to increase the length by x feet, making the new area 32 square feet larger than the original.",
+    q: "Which equation represents this situation?",
+    opts: ["8(12 + x) = 96 + 32", "12(8 + x) = 96 + 32", "(12 + x)(8 + x) = 32", "8x = 32"],
+    correct: 0
+  },
+  {
+    subj: "Science",
+    stimulus: "A student places identical plants under three light conditions: full sun, partial shade, and full shade. After 2 weeks, she measures each plant's height.",
+    q: "What is the independent variable in this experiment?",
+    opts: ["Plant height", "Number of weeks", "Amount of light", "Type of plant"],
+    correct: 2
+  },
+  {
+    subj: "Social Studies",
+    stimulus: "Under the U.S. Constitution, if the President vetoes a bill, Congress can still make it law by a two-thirds vote in both the House and Senate.",
+    q: "This describes an example of:",
+    opts: ["Judicial review", "Checks and balances", "States' rights", "Executive privilege"],
+    correct: 1
+  },
+  {
+    subj: "RLA · Reading Comprehension",
+    stimulus: "\"Remote work has cut our office's energy costs by 22% this year. Employees also report shorter commutes and more flexible schedules.\"",
+    q: "Which detail best supports the idea that remote work has financial benefits for the company?",
+    opts: ["Shorter commutes", "Flexible schedules", "22% drop in energy costs", "Employees report satisfaction"],
+    correct: 2
+  }
+];
+
+let currentQ = 0;
+let answers = new Array(questions.length).fill(null);
+let timerInterval = null;
+let secondsLeft = 300;
+
+function startTimer(){
+  goTo('s-practice');
+  currentQ = 0;
+  answers = new Array(questions.length).fill(null);
+  secondsLeft = 300;
+  renderProgress();
+  renderQuestion();
+  clearInterval(timerInterval);
+  timerInterval = setInterval(()=>{
+    secondsLeft--;
+    updateTimerDisplay();
+    if(secondsLeft <= 60){ document.getElementById('timerBox').classList.add('warn'); }
+    if(secondsLeft <= 0){
+      clearInterval(timerInterval);
+      showResults();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay(){
+  const m = Math.floor(secondsLeft/60);
+  const s = secondsLeft%60;
+  document.getElementById('timerText').textContent = m + ':' + (s<10?'0':'') + s;
+}
+
+function renderProgress(){
+  const wrap = document.getElementById('progressSegs');
+  wrap.innerHTML = '';
+  questions.forEach((q,i)=>{
+    const seg = document.createElement('div');
+    seg.className = 'seg' + (i < currentQ ? ' done' : (i === currentQ ? ' current' : ''));
+    wrap.appendChild(seg);
+  });
+}
+
+function renderQuestion(){
+  const q = questions[currentQ];
+  document.getElementById('qcounter').textContent = 'Question ' + (currentQ+1) + ' of ' + questions.length;
+  const body = document.getElementById('practiceBody');
+  body.innerHTML = `
+    <div class="stimulus"><div class="src">${q.subj}</div>${q.stimulus}</div>
+    <div class="question-text">${q.q}</div>
+    ${q.opts.map((o,i)=>`
+      <div class="opt2 ${answers[currentQ]===i?'selected':''}" onclick="selectAnswer(${i})">
+        <span class="letter">${String.fromCharCode(65+i)}</span>${o}
+      </div>
+    `).join('')}
+  `;
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = currentQ === questions.length-1 ? 'Finish' : 'Next Question';
+  btn.classList.toggle('enabled', answers[currentQ] !== null);
+  renderProgress();
+}
+
+function selectAnswer(i){
+  answers[currentQ] = i;
+  renderQuestion();
+}
+
+function nextQuestion(){
+  if(answers[currentQ] === null) return;
+  if(currentQ < questions.length-1){
+    currentQ++;
+    renderQuestion();
+  } else {
+    clearInterval(timerInterval);
+    showResults();
+  }
+}
+
+function showResults(){
+  goTo('s-results');
+  let correctCount = 0;
+  const breakdown = document.getElementById('resultsBreakdown');
+  breakdown.innerHTML = '';
+  questions.forEach((q,i)=>{
+    const isCorrect = answers[i] === q.correct;
+    if(isCorrect) correctCount++;
+    const row = document.createElement('div');
+    row.className = 'rb-row';
+    row.innerHTML = `<span class="rmark">${answers[i]===null ? '⏺️' : (isCorrect ? '✅' : '🟠')}</span><span class="rq">${q.subj}</span>`;
+    breakdown.appendChild(row);
+  });
+  document.getElementById('scoreNum').textContent = correctCount + '/' + questions.length;
+  const ring = document.getElementById('scoreRing');
+  const pct = (correctCount/questions.length)*100;
+  ring.style.background = `conic-gradient(#7C9270 0% ${pct}%, #EFDCCF ${pct}% 100%)`;
+
+  const headline = document.getElementById('resultsHeadline');
+  const sub = document.getElementById('resultsSub');
+  if(correctCount >= 4){
+    headline.textContent = "Strong set";
+    sub.textContent = "You're reading these questions carefully and it shows. Let's keep this pace going.";
+  } else if(correctCount >= 2){
+    headline.textContent = "Good progress";
+    sub.textContent = "A solid step — a couple of these are worth revisiting together, not a sign anything's wrong.";
+  } else {
+    headline.textContent = "Good starting point";
+    sub.textContent = "This is exactly what practice is for — finding what to work on next, not a final verdict.";
+  }
+}
+
+function backToHomeUpdated(){
+  document.getElementById('ag1check').classList.add('done');
+  document.getElementById('ag1check').textContent = '✓';
+  goTo('s-home');
+  const toast = document.getElementById('homeToast');
+  toast.classList.add('show');
+  setTimeout(()=> toast.classList.remove('show'), 2400);
+}
+
+function resetDemo(){
+  document.getElementById('ag1check').classList.remove('done');
+  document.getElementById('ag1check').textContent = '';
+  goTo('s-home');
+}
+</script>
+
+</body>
+</html>
