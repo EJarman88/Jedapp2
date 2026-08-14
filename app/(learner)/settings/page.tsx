@@ -1,17 +1,12 @@
 import { Card, CardLabel } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ThemePicker } from "@/components/theme/theme-picker";
+import { ReportsAccessCard } from "@/components/settings/reports-access-card";
 import { listAccounts } from "@/lib/auth/accounts";
-import type { GrantStatus } from "@/lib/supabase/database.types";
-
-const GRANT_BADGE: Record<GrantStatus, { label: string; variant: "sage" | "amber" | "neutral" }> = {
-  active: { label: "Active", variant: "sage" },
-  inert: { label: "Not yet active", variant: "amber" },
-  revoked: { label: "Revoked", variant: "neutral" },
-};
 
 export default async function SettingsPage() {
   const accounts = await listAccounts();
+  const restrictedAccount = accounts.find((a) => a.role === "restricted_reports");
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-4">
@@ -29,6 +24,21 @@ export default async function SettingsPage() {
       </div>
 
       <div>
+        <CardLabel className="mb-2 mt-0">Who can see your reports</CardLabel>
+        <Card>
+          {restrictedAccount ? (
+            <ReportsAccessCard
+              granteeUserId={restrictedAccount.id}
+              displayName={restrictedAccount.displayName}
+              initialStatus={restrictedAccount.grantStatus ?? "inert"}
+            />
+          ) : (
+            <p className="text-sm text-ink-soft">No one else has created an account yet.</p>
+          )}
+        </Card>
+      </div>
+
+      <div>
         <CardLabel className="mb-2 mt-0">Accounts</CardLabel>
         <Card className="flex flex-col gap-4">
           {accounts.map((account) => (
@@ -37,14 +47,7 @@ export default async function SettingsPage() {
                 <p className="text-sm font-medium">{account.displayName}</p>
                 <p className="text-xs text-ink-soft">{account.email}</p>
               </div>
-              <div className="flex items-center gap-2">
-                <Badge variant="neutral">{account.role === "admin" ? "Admin" : "Reports only"}</Badge>
-                {account.grantStatus && (
-                  <Badge variant={GRANT_BADGE[account.grantStatus].variant}>
-                    {GRANT_BADGE[account.grantStatus].label}
-                  </Badge>
-                )}
-              </div>
+              <Badge variant="neutral">{account.role === "admin" ? "Admin" : "Reports only"}</Badge>
             </div>
           ))}
         </Card>
