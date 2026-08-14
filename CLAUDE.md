@@ -78,10 +78,17 @@ feature spec seems to imply otherwise — flag it instead.
    trauma, or mood. Behavior only, never "why."
 
 5. **Account model.**
-   - Jalisa = admin. Full access to everything, including granting/revoking dad's access.
+   - Two roles: `admin` (full access to everything, including granting/revoking dad's
+     access) and `restricted_reports` (dad — see below). More than one person can hold
+     the `admin` role — in practice this is the account owner plus Jalisa — any admin
+     can manage dad's access grant, not just whichever admin created it.
    - Dad = separate login, scoped ONLY to Reports (structured data — see Reporting phase).
-     No access to lessons, Ask Me (Almost) Anything, or Talk to Claude.
-   - Dad's account is inert until Jalisa explicitly activates it.
+     No access to lessons, Ask Me (Almost) Anything, or Talk to Claude. Exactly one
+     `restricted_reports` account can ever exist.
+   - All accounts are self-service signups (no invite step) — the signup form asks
+     which kind of account this is; "Reports only" stops being offered once dad's
+     account has been created.
+   - Dad's account is inert until an admin explicitly activates it.
    - Access revocation takes effect immediately; re-granting does not require
      re-registration.
 
