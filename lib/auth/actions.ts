@@ -20,7 +20,9 @@ async function roleHomeRoute(supabase: Awaited<ReturnType<typeof createClient>>,
     .eq("id", userId)
     .single();
 
-  return profile?.role === "restricted_reports" ? "/reports" : "/home";
+  if (profile?.role === "restricted_reports") return "/reports";
+  if (profile?.role === "admin") return "/settings";
+  return "/home";
 }
 
 export async function signIn(

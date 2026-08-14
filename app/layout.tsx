@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import { ThemeProvider } from "@/lib/theme/theme-context";
+import { DEFAULT_THEME } from "@/lib/theme/themes";
+import { getSessionUser } from "@/lib/auth/session";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -21,11 +23,18 @@ export const metadata: Metadata = {
   description: "GED test-prep companion",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const user = await getSessionUser();
+  const initialTheme = user?.themePreference ?? DEFAULT_THEME;
+
   return (
-    <html lang="en" className={`${fraunces.variable} ${inter.variable} h-full`}>
+    <html
+      lang="en"
+      data-theme={initialTheme}
+      className={`${fraunces.variable} ${inter.variable} h-full`}
+    >
       <body className="min-h-full flex flex-col font-sans antialiased">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider initialTheme={initialTheme}>{children}</ThemeProvider>
       </body>
     </html>
   );

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Card, CardLabel } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { AppearanceSection } from "@/components/settings/appearance-section";
@@ -5,6 +6,7 @@ import { ReportsAccessCard } from "@/components/settings/reports-access-card";
 import { ParentAccessCard } from "@/components/settings/parent-access-card";
 import { listAccounts } from "@/lib/auth/accounts";
 import { getSessionUser } from "@/lib/auth/session";
+import { signOut } from "@/lib/auth/actions";
 import { createClient } from "@/lib/supabase/server";
 import { isAdult } from "@/lib/utils";
 
@@ -19,14 +21,30 @@ export default async function SettingsPage() {
   if (!user) return null;
 
   return (
-    <main className="mx-auto flex max-w-md flex-col gap-4">
-      <h1 className="font-serif text-2xl font-medium">Settings</h1>
+    <main className="mx-auto flex max-w-md flex-col gap-4 px-6 py-8">
+      <div className="flex items-center gap-3">
+        {user.role === "student" && (
+          <Link href="/home" className="text-lg text-ink-soft">
+            ←
+          </Link>
+        )}
+        <h1 className="font-serif text-2xl font-medium">Settings</h1>
+      </div>
 
       <AppearanceSection />
 
       {user.role === "student" && <StudentPrivacySection userId={user.id} />}
 
       {user.role === "admin" && <AdminAccountSections />}
+
+      <form action={signOut}>
+        <button
+          type="submit"
+          className="mt-2 text-sm font-medium text-ink-soft transition-colors hover:text-ink"
+        >
+          Sign out
+        </button>
+      </form>
     </main>
   );
 }
