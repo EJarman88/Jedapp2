@@ -36,18 +36,26 @@ export async function getSessionUser(): Promise<SessionUser | null> {
   };
 }
 
-/** Redirects away unless the signed-in user is Jalisa (admin). */
+/** Redirects away unless the signed-in user has full app access (admin or student). */
+export async function requireFullAccess(): Promise<SessionUser> {
+  const user = await getSessionUser();
+  if (!user) redirect("/login");
+  if (user.role === "restricted_reports") redirect("/reports");
+  return user;
+}
+
+/** Redirects away unless the signed-in user is the admin. */
 export async function requireAdmin(): Promise<SessionUser> {
   const user = await getSessionUser();
   if (!user) redirect("/login");
-  if (user.role !== "admin") redirect("/reports");
+  if (user.role !== "admin") redirect(user.role === "student" ? "/home" : "/reports");
   return user;
 }
 
 /**
- * Redirects away unless the signed-in user is dad (restricted_reports). Grant status
- * is re-read from the database on every call — never cached on the session — so a
- * revoke takes effect on the very next request, including mid-session.
+ * Redirects away unless the signed-in user is a reports-only account. Grant status is
+ * re-read from the database on every call — never cached on the session — so a revoke
+ * takes effect on the very next request, including mid-session.
  */
 export async function requireRestrictedReports(): Promise<{
   user: SessionUser;

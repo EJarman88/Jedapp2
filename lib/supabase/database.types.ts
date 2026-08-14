@@ -1,4 +1,4 @@
-export type UserRole = "admin" | "restricted_reports";
+export type UserRole = "admin" | "student" | "restricted_reports";
 export type GrantStatus = "inert" | "active" | "revoked";
 
 export interface Database {
@@ -10,6 +10,8 @@ export interface Database {
           role: UserRole;
           display_name: string;
           email: string;
+          date_of_birth: string | null;
+          parent_access_enabled: boolean;
           created_at: string;
         };
         // Rows are only ever created by the handle_new_user trigger, never by the
@@ -19,9 +21,11 @@ export interface Database {
           role: UserRole;
           display_name: string;
           email: string;
+          date_of_birth?: string | null;
         };
         Update: {
           display_name?: string;
+          parent_access_enabled?: boolean;
         };
         Relationships: [];
       };
@@ -81,7 +85,16 @@ export interface Database {
       };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      student_signup_available: {
+        Args: Record<string, never>;
+        Returns: boolean;
+      };
+      restricted_signup_available: {
+        Args: Record<string, never>;
+        Returns: boolean;
+      };
+    };
     Enums: Record<string, never>;
   };
 }

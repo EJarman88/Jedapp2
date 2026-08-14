@@ -17,7 +17,15 @@ export default function LoginPage() {
           submitLabel="Log in"
           fields={[
             { name: "email", label: "Email", type: "email", autoComplete: "email" },
-            { name: "password", label: "Password", type: "password", autoComplete: "current-password" },
+            {
+              name: "password",
+              label: "6-digit PIN",
+              type: "password",
+              autoComplete: "current-password",
+              inputMode: "numeric",
+              pattern: "\\d{6}",
+              maxLength: 6,
+            },
           ]}
         />
       </Card>
