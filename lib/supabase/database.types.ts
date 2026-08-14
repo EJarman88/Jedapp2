@@ -9,6 +9,7 @@ export interface Database {
           id: string;
           role: UserRole;
           display_name: string;
+          email: string;
           created_at: string;
         };
         // Rows are only ever created by the handle_new_user trigger, never by the
@@ -17,6 +18,7 @@ export interface Database {
           id: string;
           role: UserRole;
           display_name: string;
+          email: string;
         };
         Update: {
           display_name?: string;
