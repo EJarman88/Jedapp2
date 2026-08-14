@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { AuthForm } from "@/components/auth/auth-form";
+import { ForgotPin } from "@/components/auth/forgot-pin";
 import { signIn } from "@/lib/auth/actions";
 
 export default function LoginPage() {
@@ -30,10 +31,12 @@ export default function LoginPage() {
         />
       </Card>
 
+      <ForgotPin />
+
       <p className="text-center text-sm text-ink-soft">
-        Setting up for the first time?{" "}
+        Don&rsquo;t have an account yet?{" "}
         <Link href="/signup" className="font-semibold text-terracotta">
-          Create an account
+          Create one
         </Link>
       </p>
     </main>
