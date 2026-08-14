@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EdApp — Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F6F1E8;
+    --cream-card:#FFFEFB;
+    --ink:#2C2620;
+    --ink-soft:#6B6258;
+    --terracotta:#C1704F;
+    --terracotta-soft:#E8C9B8;
+    --sage:#8A9A7E;
+    --sage-soft:#D9E1D1;
+    --gold:#D4A24C;
+    --line:#E7DFD1;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    background:#EDE6D8;
+    color:var(--ink);
+    padding:48px 24px;
+  }
+  .lab-heading{
+    text-align:center;
+    max-width:640px;
+    margin:0 auto 40px;
+  }
+  .lab-heading h1{
+    font-family:'Fraunces',serif;
+    font-size:28px;
+    font-weight:600;
+    margin:0 0 8px;
+  }
+  .lab-heading p{
+    color:var(--ink-soft);
+    font-size:15px;
+    line-height:1.5;
+  }
+  .stage{
+    display:flex;
+    flex-wrap:wrap;
+    gap:40px;
+    justify-content:center;
+    align-items:flex-start;
+  }
+  .frame-wrap{ text-align:center; }
+  .frame-label{
+    font-size:12px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:14px;
+    font-weight:600;
+  }
+  .phone{
+    width:375px;
+    height:780px;
+    background:var(--cream);
+    border-radius:44px;
+    box-shadow:0 30px 60px -20px rgba(44,38,32,.35), 0 0 0 10px #1c1712;
+    overflow:hidden;
+    position:relative;
+    transition:background .4s ease;
+  }
+  .screen{
+    height:100%;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+  }
+  .statusbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 26px 6px;
+    font-size:13px;
+    font-weight:600;
+    flex-shrink:0;
+  }
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:8px 24px 4px;
+    flex-shrink:0;
+  }
+  .back-btn{
+    width:34px;height:34px;border-radius:50%;
+    background:var(--cream-card);
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid var(--line);
+    font-size:16px;
+    cursor:default;
+  }
+
+  /* ---------- SCREEN 1: COLOR PICKER ---------- */
+  .picker-body{ padding:18px 26px 40px; flex:1; }
+  .picker-body h1{
+    font-family:'Fraunces',serif;
+    font-size:26px;
+    font-weight:600;
+    margin:6px 0 6px;
+  }
+  .picker-body .sub{
+    color:var(--ink-soft);
+    font-size:14px;
+    line-height:1.5;
+    margin:0 0 26px;
+    max-width:280px;
+  }
+  .swatch-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .swatch{
+    border-radius:18px;
+    border:2px solid transparent;
+    padding:18px 16px 14px;
+    cursor:pointer;
+    position:relative;
+    transition:transform .15s ease, border-color .15s ease;
+    min-height:108px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+  .swatch:hover{ transform:translateY(-2px); }
+  .swatch.selected{ border-color:var(--terracotta); }
+  .swatch .check{
+    position:absolute;
+    top:10px; right:10px;
+    width:22px;height:22px;
+    border-radius:50%;
+    background:var(--terracotta);
+    color:#fff;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+  }
+  .swatch.selected .check{ display:flex; }
+  .swatch .preview-text{
+    font-size:13px;
+    line-height:1.4;
+    font-weight:500;
+  }
+  .swatch .name{
+    font-size:13px;
+    font-weight:600;
+    margin-top:12px;
+  }
+  .sw-cream{ background:#F6F1E8; color:#2C2620; }
+  .sw-sage{ background:#DCE5D3; color:#33402C; }
+  .sw-gray{ background:#E4E1DC; color:#2C2C2A; }
+  .sw-night{ background:#242220; color:#F1EDE6; }
+  .sw-gold{ background:#F0DCB0; color:#4A3A18; }
+  .sw-blush{ background:#F0DCD3; color:#4A2E24; }
+  .sw-brown{ background:#3E2E22; color:#F1E6D9; }
+
+  .picker-cta{
+    margin-top:30px;
+    background:var(--terracotta);
+    color:#fff;
+    border:none;
+    border-radius:14px;
+    padding:16px;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:15px;
+    width:100%;
+    cursor:pointer;
+    transition:opacity .2s ease;
+  }
+  .picker-skip{
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:13px;
+    margin-top:14px;
+    text-decoration:underline;
+    cursor:pointer;
+  }
+  .preview-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:11.5px;
+    font-weight:600;
+    color:var(--terracotta);
+    background:var(--terracotta-soft);
+    padding:5px 12px;
+    border-radius:20px;
+    margin-bottom:16px;
+    opacity:0;
+    transform:translateY(-4px);
+    transition:opacity .25s ease, transform .25s ease;
+  }
+  .preview-tag.show{ opacity:1; transform:translateY(0); }
+  .saved-toast{
+    position:absolute;
+    left:50%;
+    bottom:110px;
+    transform:translateX(-50%) translateY(20px);
+    background:#2C2620;
+    color:#fff;
+    padding:10px 20px;
+    border-radius:30px;
+    font-size:12.5px;
+    font-weight:600;
+    opacity:0;
+    transition:opacity .25s ease, transform .25s ease;
+    pointer-events:none;
+    white-space:nowrap;
+  }
+  .saved-toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* ---------- SCREEN 2: HOME ---------- */
+  .home-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    padding:16px 24px 8px;
+    flex-shrink:0;
+  }
+  .brand{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:19px;
+    color:var(--terracotta);
+    letter-spacing:-.01em;
+  }
+  .avatar{
+    width:38px;height:38px;border-radius:50%;
+    background:var(--sage-soft);
+    display:flex;align-items:center;justify-content:center;
+    font-size:15px;font-weight:600;
+    color:var(--ink);
+    border:2px solid var(--cream-card);
+  }
+  .home-body{ padding:6px 24px 100px; flex:1; }
+  .greeting{
+    font-family:'Fraunces',serif;
+    font-size:23px;
+    font-weight:500;
+    margin:10px 0 4px;
+  }
+  .greeting-sub{
+    color:var(--ink-soft);
+    font-size:13.5px;
+    margin:0 0 22px;
+  }
+  .card{
+    background:var(--cream-card);
+    border-radius:18px;
+    padding:18px 20px;
+    margin-bottom:16px;
+    border:1px solid var(--line);
+  }
+  .card-title{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:0 0 14px;
+  }
+  .subject-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:13px;
+  }
+  .subject-row:last-child{ margin-bottom:0; }
+  .subject-label{
+    font-size:13.5px;
+    font-weight:500;
+    width:78px;
+    flex-shrink:0;
+  }
+  .bar-track{
+    flex:1;
+    height:8px;
+    background:#EFE9DC;
+    border-radius:6px;
+    overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;
+    border-radius:6px;
+    background:var(--terracotta);
+  }
+  .continue-card{
+    background:linear-gradient(135deg,#EFE4D4,var(--cream-card));
+    border-radius:18px;
+    padding:20px;
+    margin-bottom:16px;
+    border:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    cursor:pointer;
+  }
+  .continue-card .txt strong{
+    display:block;
+    font-size:15px;
+    margin-bottom:4px;
+    font-family:'Fraunces',serif;
+    font-weight:600;
+  }
+  .continue-card .txt span{
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+  .continue-arrow{
+    width:34px;height:34px;
+    border-radius:50%;
+    background:var(--terracotta);
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:16px;
+    flex-shrink:0;
+  }
+  .quote-card{
+    background:var(--sage-soft);
+    border-radius:18px;
+    padding:18px 20px;
+    margin-bottom:16px;
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:14.5px;
+    line-height:1.5;
+    color:#33402C;
+  }
+  .quote-attr{
+    display:block;
+    font-family:'Inter',sans-serif;
+    font-style:normal;
+    font-size:11.5px;
+    font-weight:600;
+    margin-top:10px;
+    color:#4A5741;
+  }
+  .checkin-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:var(--cream-card);
+    border:1px dashed var(--terracotta-soft);
+    border-radius:16px;
+    padding:14px 18px;
+    margin-bottom:20px;
+  }
+  .checkin-row .txt{ font-size:13px; font-weight:500; }
+  .checkin-row .txt small{
+    display:block;
+    color:var(--ink-soft);
+    font-weight:400;
+    font-size:11.5px;
+    margin-top:2px;
+  }
+  .emoji-btn{
+    font-size:18px;
+    background:var(--terracotta-soft);
+    border:none;
+    width:36px;height:36px;
+    border-radius:50%;
+    cursor:pointer;
+  }
+  .tabbar{
+    position:absolute;
+    bottom:0; left:0; right:0;
+    background:var(--cream-card);
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-around;
+    padding:12px 8px 20px;
+  }
+  .tab{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    font-size:10.5px;
+    color:var(--ink-soft);
+    font-weight:500;
+  }
+  .tab.active{ color:var(--terracotta); font-weight:600; }
+  .tab .ic{ font-size:18px; }
+
+  .notes{
+    max-width:780px;
+    margin:56px auto 0;
+    background:#FFFEFB;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:24px 28px;
+  }
+  .notes h2{
+    font-family:'Fraunces',serif;
+    font-size:16px;
+    margin:0 0 10px;
+  }
+  .notes p{
+    font-size:13.5px;
+    line-height:1.6;
+    color:var(--ink-soft);
+    margin:0 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="lab-heading">
+  <h1>EdApp — Working Mockup</h1>
+  <p>Click a color swatch on the left screen to preview it live on the home screen. This is a starting point for design conversation, not final production UI.</p>
+</div>
+
+<div class="stage">
+
+  <div class="frame-wrap">
+    <div class="frame-label">Onboarding — Choose Your Background</div>
+    <div class="phone" id="pickerPhone">
+      <div class="screen">
+        <div class="statusbar"><span>9:41</span><span>●●●●  📶  🔋</span></div>
+        <div class="topbar"><div class="back-btn">←</div></div>
+        <div class="picker-body">
+          <div class="preview-tag" id="previewTag">👁 Previewing — not saved yet</div>
+          <h1>Make it yours</h1>
+          <p class="sub">Pick whatever feels easiest to read. You can change this anytime.</p>
+          <div class="swatch-grid">
+            <div class="swatch sw-cream selected" data-bg="#F6F1E8" data-ink="#2C2620" data-card="#FFFEFB" data-line="#E7DFD1" onclick="selectSwatch(this)">
+              <div class="check">✓</div>
+              <div class="preview-text">Live text preview</div>
+              <div class="name">Warm Cream</div>
+            </div>
+            <div class="swatch sw-sage" data-bg="#EDF1E7" data-ink="#2E3928" data-card="#FBFCF9" data-line="#D9E1D1" onclick="selectSwatch(this)">
+              <div class="check">✓</div>
+              <div class="preview-text">Live text preview</div>
+              <div class="name">Soft Sage</div>
+            </div>
+            <div class="swatch sw-gray" data-bg="#EBE9E4" data-ink="#2C2C2A" data-card="#FAFAF8" data-line="#DCDAD3" onclick="selectSwatch(this)">
+              <div class="check">✓</div>
+              <div class="preview-text">Live text preview</div>
+              <div class="name">Warm Gray</div>
+            </div>
+            <div class="swatch sw-night" data-bg="#242220" data-ink="#F1EDE6" data-card="#2E2B27" data-line="#3C3833" onclick="selectSwatch(this)">
+              <div class="check">✓</div>
+              <div class="preview-text">Live text preview</div>
+              <div class="name">Quiet Night</div>
+            </div>
+            <div class="swatch sw-gold" data-bg="#F5EAD3" data-ink="#4A3A18" data-card="#FDFAF3" data-line="#E9DAB4" onclick="selectSwatch(this)">
+              <div class="check">✓</div>
+              <div class="preview-text">Live text preview</div>
+              <div class="name">Golden Hour</div>
+            </div>
+            <div class="swatch sw-blush" data-bg="#F5E6DE" data-ink="#4A2E24" data-card="#FDF7F3" data-line="#EAD3C4" onclick="selectSwatch(this)">
+              <div class="check">✓</div>
+              <div class="preview-text">Live text preview</div>
+              <div class="name">Soft Clay</div>
+            </div>
+            <div class="swatch sw-brown" data-bg="#3E2E22" data-ink="#F1E6D9" data-card="#4A3829" data-line="#5A4636" onclick="selectSwatch(this)">
+              <div class="check">✓</div>
+              <div class="preview-text">Live text preview</div>
+              <div class="name">Cocoa</div>
+            </div>
+          </div>
+          <button class="picker-cta" onclick="saveTheme()">Save & Continue</button>
+          <div class="picker-skip">I'll decide later</div>
+        </div>
+      </div>
+      <div class="saved-toast" id="savedToast">✓ Saved as your background</div>
+    </div>
+  </div>
+
+  <div class="frame-wrap">
+    <div class="frame-label">Home Screen</div>
+    <div class="phone" id="homePhone">
+      <div class="screen">
+        <div class="statusbar"><span>9:41</span><span>●●●●  📶  🔋</span></div>
+        <div class="home-top">
+          <div class="brand">EdApp</div>
+          <div class="avatar">M</div>
+        </div>
+        <div class="home-body">
+          <div class="greeting">Welcome back, Jalesa</div>
+          <p class="greeting-sub">Tuesday · Day 14 of your plan</p>
+
+          <div class="card">
+            <p class="card-title">Your progress</p>
+            <div class="subject-row">
+              <span class="subject-label">RLA</span>
+              <div class="bar-track"><div class="bar-fill" style="width:78%"></div></div>
+            </div>
+            <div class="subject-row">
+              <span class="subject-label">Math</span>
+              <div class="bar-track"><div class="bar-fill" style="width:45%"></div></div>
+            </div>
+            <div class="subject-row">
+              <span class="subject-label">Science</span>
+              <div class="bar-track"><div class="bar-fill" style="width:60%"></div></div>
+            </div>
+            <div class="subject-row">
+              <span class="subject-label">Soc. Studies</span>
+              <div class="bar-track"><div class="bar-fill" style="width:30%"></div></div>
+            </div>
+          </div>
+
+          <div class="continue-card">
+            <div class="txt">
+              <strong>Continue where you left off</strong>
+              <span>Math · Solving for x with two variables</span>
+            </div>
+            <div class="continue-arrow">→</div>
+          </div>
+
+          <div class="quote-card">
+            "If you can't fly then run, if you can't run then walk, if you can't walk then crawl, but whatever you do you have to keep moving forward."
+            <span class="quote-attr">— Martin Luther King Jr.</span>
+          </div>
+
+          <div class="checkin-row">
+            <div class="txt">How are you feeling about today's session?
+              <small>Optional — helps us pace things right</small>
+            </div>
+            <button class="emoji-btn">🙂</button>
+          </div>
+        </div>
+        <div class="tabbar">
+          <div class="tab active"><span class="ic">📘</span>Lessons</div>
+          <div class="tab"><span class="ic">📝</span>Homework</div>
+          <div class="tab"><span class="ic">📊</span>Practice</div>
+          <div class="tab"><span class="ic">💛</span>Progress</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="notes">
+  <h2>Notes for this round of feedback</h2>
+  <p>The color picker on the left controls the live preview on the home screen — click through the swatches to see how the palette holds up with real content and UI elements on top of it.</p>
+  <p>Placeholder name ("Jalesa") and quote are examples only — final copy, quote bank, and student name are configurable per learner.</p>
+  <p>This is a static mockup for design conversation, not a functional build — think of it as a shareable starting point rather than a finished product.</p>
+</div>
+
+<script>
+let hasSelectedOnce = false;
+
+function applyTheme(el, targetEl){
+  const bg = el.dataset.bg;
+  const ink = el.dataset.ink;
+  const card = el.dataset.card;
+  const line = el.dataset.line;
+  targetEl.style.setProperty('--cream', bg);
+  targetEl.style.setProperty('--ink', ink);
+  targetEl.style.setProperty('--cream-card', card);
+  targetEl.style.setProperty('--line', line);
+  targetEl.style.background = bg;
+  targetEl.style.color = ink;
+}
+
+function selectSwatch(el){
+  document.querySelectorAll('.swatch').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+
+  // Live-preview on the picker screen itself — try before you save
+  const pickerPhone = document.getElementById('pickerPhone');
+  applyTheme(el, pickerPhone);
+
+  // Also preview on the home screen so both stay in sync
+  const homePhone = document.getElementById('homePhone');
+  applyTheme(el, homePhone);
+
+  // Show the "previewing, not saved" tag after the first tap
+  const tag = document.getElementById('previewTag');
+  tag.classList.add('show');
+
+  // Hide any prior saved toast if she changes her mind
+  document.getElementById('savedToast').classList.remove('show');
+}
+
+function saveTheme(){
+  document.getElementById('previewTag').classList.remove('show');
+  const toast = document.getElementById('savedToast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2200);
+}
+</script>
+
+</body>
+</html>

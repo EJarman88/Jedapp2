@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F6F1E8; --cream-card:#FFFEFB; --ink:#2C2620; --ink-soft:#6B6258;
+    --terracotta:#C1704F; --terracotta-soft:#EFDCCF; --sage:#7C9270; --sage-soft:#DCE5D3;
+    --gold:#C99A3E; --line:#E7DFD1; --amber:#C98A3E;
+  }
+  *{box-sizing:border-box;}
+  body{ margin:0; font-family:'Inter',sans-serif; background:#EDE6D8; color:var(--ink); padding:40px; }
+  .frame-wrap{ text-align:center; }
+  .frame-label{ font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#6B6258; margin-bottom:14px; font-weight:600; }
+  .phone{ width:375px; height:780px; background:var(--cream); border-radius:44px; box-shadow:0 30px 60px -20px rgba(44,38,32,.35), 0 0 0 10px #1c1712; overflow:hidden; position:relative; margin:0 auto; }
+  .screen{ height:100%; display:flex; flex-direction:column; }
+  .statusbar{ display:flex; justify-content:space-between; align-items:center; padding:18px 26px 6px; font-size:13px; font-weight:600; flex-shrink:0; }
+  .topbar{ display:flex; align-items:center; gap:12px; padding:10px 24px 14px; flex-shrink:0; }
+  .back-btn{ width:32px;height:32px;border-radius:50%; background:var(--cream-card); display:flex;align-items:center;justify-content:center; border:1px solid var(--line); font-size:15px; flex-shrink:0; }
+  .topbar h1{ font-family:'Fraunces',serif; font-size:19px; font-weight:600; margin:0; }
+
+  .body{ flex:1; overflow-y:auto; padding:0 22px 30px; }
+
+  .group-label{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-soft); margin:22px 4px 10px; }
+  .group-label:first-child{ margin-top:4px; }
+
+  .card{ background:var(--cream-card); border:1px solid var(--line); border-radius:16px; overflow:hidden; }
+  .row{ display:flex; align-items:center; justify-content:space-between; padding:15px 18px; border-bottom:1px solid var(--line); gap:12px; }
+  .row:last-child{ border-bottom:none; }
+  .row .left{ display:flex; align-items:center; gap:12px; min-width:0; }
+  .row .ic{ font-size:17px; flex-shrink:0; width:22px; text-align:center; }
+  .row .txt{ min-width:0; }
+  .row .txt .t{ font-size:13.5px; font-weight:500; }
+  .row .txt .s{ font-size:11.5px; color:var(--ink-soft); margin-top:2px; line-height:1.4; }
+  .chev{ color:var(--ink-soft); font-size:14px; flex-shrink:0; }
+
+  .swatch-preview{ display:flex; gap:5px; }
+  .swatch-preview span{ width:16px; height:16px; border-radius:5px; }
+
+  /* Access control card */
+  .access-card{ background:var(--cream-card); border:1px solid var(--line); border-radius:16px; padding:18px; }
+  .access-person{ display:flex; align-items:center; gap:12px; }
+  .avatar-sm{ width:40px; height:40px; border-radius:50%; background:var(--sage-soft); display:flex; align-items:center; justify-content:center; font-weight:600; font-size:14px; flex-shrink:0; }
+  .access-info{ flex:1; min-width:0; }
+  .access-info .name{ font-size:14px; font-weight:600; }
+  .access-info .scope{ font-size:11.5px; color:var(--ink-soft); margin-top:2px; }
+  .status-pill{ font-size:11px; font-weight:700; padding:5px 12px; border-radius:20px; flex-shrink:0; }
+  .status-pill.active{ background:var(--sage-soft); color:#3D4E33; }
+  .status-pill.revoked{ background:#EFE9DC; color:var(--ink-soft); }
+
+  .toggle-row{ display:flex; align-items:center; justify-content:space-between; margin-top:14px; padding-top:14px; border-top:1px solid var(--line); }
+  .toggle-row .label{ font-size:13px; font-weight:500; }
+  .toggle{ width:44px; height:26px; border-radius:14px; background:var(--sage); position:relative; flex-shrink:0; }
+  .toggle .knob{ width:20px; height:20px; border-radius:50%; background:#fff; position:absolute; top:3px; right:3px; box-shadow:0 1px 3px rgba(0,0,0,.2); }
+  .access-note{ font-size:11.5px; color:var(--ink-soft); line-height:1.5; margin-top:12px; }
+
+  .digest-toggle-row{ padding:15px 18px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .digest-toggle-row .txt .t{ font-size:13.5px; font-weight:500; }
+  .digest-toggle-row .txt .s{ font-size:11.5px; color:var(--ink-soft); margin-top:2px; }
+  .toggle.off{ background:#DCD5C6; }
+  .toggle.off .knob{ right:auto; left:3px; }
+
+  .contact-card{ background:linear-gradient(135deg,#EFE4D4,var(--cream-card)); border:1px solid var(--line); border-radius:16px; padding:18px; display:flex; align-items:center; gap:14px; }
+  .contact-ic{ width:42px; height:42px; border-radius:50%; background:var(--terracotta-soft); display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+  .contact-txt{ flex:1; }
+  .contact-txt .t{ font-size:13.5px; font-weight:600; }
+  .contact-txt .s{ font-size:11.5px; color:var(--ink-soft); margin-top:2px; }
+  .contact-btn{ background:var(--terracotta); color:#fff; border:none; border-radius:10px; padding:9px 16px; font-size:12.5px; font-weight:600; flex-shrink:0; }
+
+  .signout{ text-align:center; font-size:13px; color:#B5533A; font-weight:600; padding:16px; margin-top:22px; }
+</style>
+</head>
+<body>
+
+<div class="frame-wrap">
+  <div class="frame-label">Settings — Jalesa's View</div>
+  <div class="phone">
+    <div class="screen">
+      <div class="statusbar"><span>9:41</span><span>●●●●  📶  🔋</span></div>
+      <div class="topbar"><div class="back-btn">←</div><h1>Settings</h1></div>
+
+      <div class="body">
+
+        <div class="group-label">Appearance</div>
+        <div class="card">
+          <div class="row">
+            <div class="left"><span class="ic">🎨</span><div class="txt"><div class="t">Background theme</div><div class="s">Warm Cream</div></div></div>
+            <div class="swatch-preview">
+              <span style="background:#F6F1E8;border:1px solid #E7DFD1"></span>
+              <span style="background:#3E2E22"></span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="left"><span class="ic">🔊</span><div class="txt"><div class="t">Read aloud</div><div class="s">Voice, pitch & speed</div></div></div>
+            <span class="chev">›</span>
+          </div>
+          <div class="row">
+            <div class="left"><span class="ic">📋</span><div class="txt"><div class="t">Daily plan style</div><div class="s">Suggested order, skippable</div></div></div>
+            <span class="chev">›</span>
+          </div>
+        </div>
+
+        <div class="group-label">Who can see your reports</div>
+        <div class="access-card">
+          <div class="access-person">
+            <div class="avatar-sm">D</div>
+            <div class="access-info">
+              <div class="name">Dad</div>
+              <div class="scope">Reports access only — no lessons, no Ask Me (Almost) Anything</div>
+            </div>
+            <span class="status-pill active">Active</span>
+          </div>
+          <div class="toggle-row">
+            <span class="label">Dad can view Reports</span>
+            <div class="toggle"><div class="knob"></div></div>
+          </div>
+          <div class="access-note">You can turn this off anytime — it takes effect immediately. Turning it back on later won't require dad to set up a new account.</div>
+        </div>
+
+        <div class="group-label">Weekly digest</div>
+        <div class="card">
+          <div class="digest-toggle-row">
+            <div class="txt">
+              <div class="t">Send dad a weekly summary</div>
+              <div class="s">Plain-language activity notes — separate from full Reports access</div>
+            </div>
+            <div class="toggle"><div class="knob"></div></div>
+          </div>
+        </div>
+
+        <div class="group-label">Your own reports</div>
+        <div class="card">
+          <div class="row">
+            <div class="left"><span class="ic">📊</span><div class="txt"><div class="t">View my Reports</div><div class="s">Same data dad sees, from your side</div></div></div>
+            <span class="chev">›</span>
+          </div>
+        </div>
+
+        <div class="group-label">Support</div>
+        <div class="contact-card">
+          <div class="contact-ic">💬</div>
+          <div class="contact-txt">
+            <div class="t">Need help with anything?</div>
+            <div class="s">Reach out to Erica</div>
+          </div>
+          <button class="contact-btn">Contact</button>
+        </div>
+
+        <div class="signout">Sign Out</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

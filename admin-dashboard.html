@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F6F1E8; --cream-card:#FFFEFB; --ink:#2C2620; --ink-soft:#6B6258;
+    --terracotta:#C1704F; --terracotta-soft:#EFDCCF; --sage:#7C9270; --sage-soft:#DCE5D3;
+    --gold:#C99A3E; --gold-soft:#F0E0B8; --line:#E7DFD1; --amber:#C98A3E; --amber-soft:#F0DEB8;
+  }
+  *{box-sizing:border-box;}
+  body{ margin:0; font-family:'Inter',sans-serif; background:#EDE6D8; color:var(--ink); padding:40px; }
+  .wrap{ max-width:1180px; margin:0 auto; background:var(--cream); border-radius:24px; padding:40px 44px; box-shadow:0 30px 60px -30px rgba(44,38,32,.3); }
+  .head{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:32px; }
+  .head h1{ font-family:'Fraunces',serif; font-weight:600; font-size:26px; margin:0 0 4px; }
+  .head p{ color:var(--ink-soft); font-size:13.5px; margin:0; }
+  .pill{ background:var(--cream-card); border:1px solid var(--line); border-radius:20px; padding:8px 16px; font-size:12.5px; font-weight:600; color:var(--ink-soft); }
+
+  .grid4{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:24px; }
+  .subj-card{ background:var(--cream-card); border:1px solid var(--line); border-radius:18px; padding:18px 20px; }
+  .subj-card .top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+  .subj-card .name{ font-weight:600; font-size:14px; }
+  .subj-card .attempts{ font-size:11px; color:var(--ink-soft); }
+  .score-row{ display:flex; align-items:baseline; gap:6px; margin-bottom:10px; }
+  .score-big{ font-family:'Fraunces',serif; font-size:28px; font-weight:600; }
+  .score-of{ font-size:12px; color:var(--ink-soft); }
+  .badge{ font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:12px; margin-left:auto; }
+  .badge.pass{ background:var(--sage-soft); color:#3D4E33; }
+  .badge.progress{ background:var(--amber-soft); color:#7A5419; }
+  .sparkline{ height:36px; display:flex; align-items:flex-end; gap:4px; margin-top:8px; }
+  .sparkline .bar{ flex:1; border-radius:3px 3px 0 0; }
+  .trend-txt{ font-size:10.5px; color:var(--ink-soft); margin-top:6px; }
+
+  .row2{ display:grid; grid-template-columns:1.1fr 1.4fr; gap:16px; margin-bottom:16px; }
+  .card{ background:var(--cream-card); border:1px solid var(--line); border-radius:18px; padding:22px 24px; }
+  .card-title{ font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); margin:0 0 16px; display:flex; align-items:center; gap:8px; }
+
+  .incentive-list{ display:flex; flex-direction:column; gap:10px; margin-bottom:16px; }
+  .incentive-row{ display:flex; align-items:center; justify-content:space-between; font-size:13.5px; }
+  .incentive-row .subj{ display:flex; align-items:center; gap:8px; font-weight:500; }
+  .dot{ width:8px; height:8px; border-radius:50%; }
+  .dot.done{ background:var(--sage); }
+  .dot.pending{ background:var(--amber); }
+  .amt{ font-weight:600; color:var(--ink-soft); font-size:13px; }
+  .amt.earned{ color:#3D4E33; }
+  .total-ring{ display:flex; align-items:center; gap:16px; margin-top:18px; padding-top:18px; border-top:1px solid var(--line); }
+  .ring{ width:64px; height:64px; border-radius:50%; background:conic-gradient(var(--gold) 0% 75%, var(--gold-soft) 75% 100%); display:flex; align-items:center; justify-content:center; }
+  .ring-inner{ width:48px; height:48px; border-radius:50%; background:var(--cream-card); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; }
+  .total-txt strong{ display:block; font-family:'Fraunces',serif; font-size:19px; font-weight:600; }
+  .total-txt span{ font-size:12px; color:var(--ink-soft); }
+
+  .digest-list{ display:flex; flex-direction:column; gap:12px; }
+  .digest-item{ display:flex; gap:10px; font-size:13.5px; line-height:1.5; }
+  .digest-item .ic{ font-size:15px; flex-shrink:0; margin-top:1px; }
+  .digest-note{ background:var(--sage-soft); border-radius:12px; padding:12px 14px; font-size:12.5px; color:#3D4E33; margin-top:14px; line-height:1.5; }
+
+  .row3{ display:grid; grid-template-columns:1.4fr 1fr; gap:16px; }
+  .trait-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:16px; }
+  .trait{ text-align:center; }
+  .trait .tname{ font-size:11px; font-weight:600; color:var(--ink-soft); margin-bottom:8px; line-height:1.3; height:28px; }
+  .trait-bars{ display:flex; align-items:flex-end; gap:3px; height:44px; justify-content:center; }
+  .trait-bars .b{ width:8px; border-radius:2px 2px 0 0; }
+  .privacy-note{ display:flex; align-items:center; gap:10px; background:#F3EEE3; border:1px dashed var(--line); border-radius:12px; padding:12px 14px; font-size:12px; color:var(--ink-soft); }
+  .lock{ font-size:15px; }
+  .conf-chart{ height:110px; position:relative; margin-top:6px; }
+  .legend{ display:flex; gap:16px; font-size:11px; color:var(--ink-soft); margin-top:10px; }
+  .legend span{ display:inline-flex; align-items:center; gap:6px; }
+  .legend .sw{ width:10px; height:10px; border-radius:50%; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div>
+      <h1>Progress & Reports — Jalesa's Journey</h1>
+      <p>Admin view · behavioral & score data only · updated today</p>
+    </div>
+    <div class="pill">🔒 Private admin view</div>
+  </div>
+
+  <div class="grid4">
+    <div class="subj-card">
+      <div class="top"><span class="name">RLA</span><span class="badge pass">Passed</span></div>
+      <div class="score-row"><span class="score-big" style="color:#3D4E33">148</span><span class="score-of">/ 200 · attempt 2 of 2</span></div>
+      <div class="sparkline">
+        <div class="bar" style="height:40%;background:var(--terracotta-soft)"></div>
+        <div class="bar" style="height:60%;background:var(--terracotta-soft)"></div>
+        <div class="bar" style="height:95%;background:var(--sage)"></div>
+      </div>
+      <div class="trend-txt">Trend: 130 → 143 → 148</div>
+    </div>
+    <div class="subj-card">
+      <div class="top"><span class="name">Math</span><span class="badge progress">In progress</span></div>
+      <div class="score-row"><span class="score-big">138</span><span class="score-of">/ 200 · attempt 1 of 2</span></div>
+      <div class="sparkline">
+        <div class="bar" style="height:70%;background:var(--terracotta)"></div>
+      </div>
+      <div class="trend-txt">Trend: 138 (first attempt)</div>
+    </div>
+    <div class="subj-card">
+      <div class="top"><span class="name">Science</span><span class="badge progress">In progress</span></div>
+      <div class="score-row"><span class="score-big">141</span><span class="score-of">/ 200 · attempt 2 of 2</span></div>
+      <div class="sparkline">
+        <div class="bar" style="height:55%;background:var(--terracotta-soft)"></div>
+        <div class="bar" style="height:72%;background:var(--terracotta)"></div>
+      </div>
+      <div class="trend-txt">Trend: 128 → 141</div>
+    </div>
+    <div class="subj-card">
+      <div class="top"><span class="name">Soc. Studies</span><span class="badge progress">Not started</span></div>
+      <div class="score-row"><span class="score-big" style="color:var(--ink-soft)">—</span><span class="score-of">0 of 2 used</span></div>
+      <div class="sparkline">
+        <div class="bar" style="height:8%;background:var(--line)"></div>
+      </div>
+      <div class="trend-txt">No attempts yet</div>
+    </div>
+  </div>
+
+  <div class="row2">
+    <div class="card">
+      <p class="card-title">🏆 Incentive progress</p>
+      <div class="incentive-list">
+        <div class="incentive-row"><span class="subj"><span class="dot done"></span>RLA</span><span class="amt earned">$75 earned</span></div>
+        <div class="incentive-row"><span class="subj"><span class="dot pending"></span>Math</span><span class="amt">In progress</span></div>
+        <div class="incentive-row"><span class="subj"><span class="dot pending"></span>Science</span><span class="amt">In progress</span></div>
+        <div class="incentive-row"><span class="subj"><span class="dot pending"></span>Social Studies</span><span class="amt">Not started</span></div>
+      </div>
+      <div class="total-ring">
+        <div class="ring" style="background:conic-gradient(var(--gold) 0% 25%, var(--gold-soft) 25% 100%)"><div class="ring-inner">25%</div></div>
+        <div class="total-txt"><strong>$75 of $300</strong><span>earned so far</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">📋 Weekly digest — shared with dad, with Jalesa's consent</p>
+      <div class="digest-list">
+        <div class="digest-item"><span class="ic">📈</span><span>4 sessions this week, up from 3 last week.</span></div>
+        <div class="digest-item"><span class="ic">✅</span><span>Consistent, steady engagement in RLA and Science.</span></div>
+        <div class="digest-item"><span class="ic">💛</span><span>Math avoided twice — may be worth a check-in.</span></div>
+        <div class="digest-item"><span class="ic">✍️</span><span>Completed one extended response this week; chose to keep it private.</span></div>
+      </div>
+      <div class="digest-note">This summary reflects activity patterns only — never the content of what Jalesa writes, and never a read on how she's feeling.</div>
+    </div>
+  </div>
+
+  <div class="row3">
+    <div class="card">
+      <p class="card-title">✍️ Extended response — trait trends</p>
+      <div class="trait-grid">
+        <div class="trait">
+          <div class="tname">Argument<br>Analysis</div>
+          <div class="trait-bars">
+            <div class="b" style="height:40%;background:var(--terracotta-soft)"></div>
+            <div class="b" style="height:55%;background:var(--terracotta-soft)"></div>
+            <div class="b" style="height:75%;background:var(--terracotta)"></div>
+          </div>
+        </div>
+        <div class="trait">
+          <div class="tname">Organization</div>
+          <div class="trait-bars">
+            <div class="b" style="height:50%;background:var(--terracotta-soft)"></div>
+            <div class="b" style="height:65%;background:var(--terracotta-soft)"></div>
+            <div class="b" style="height:68%;background:var(--terracotta)"></div>
+          </div>
+        </div>
+        <div class="trait">
+          <div class="tname">Language<br>Command</div>
+          <div class="trait-bars">
+            <div class="b" style="height:60%;background:var(--terracotta-soft)"></div>
+            <div class="b" style="height:58%;background:var(--terracotta-soft)"></div>
+            <div class="b" style="height:80%;background:var(--sage)"></div>
+          </div>
+        </div>
+        <div class="trait">
+          <div class="tname">Grammar &<br>Conventions</div>
+          <div class="trait-bars">
+            <div class="b" style="height:45%;background:var(--terracotta-soft)"></div>
+            <div class="b" style="height:62%;background:var(--terracotta-soft)"></div>
+            <div class="b" style="height:70%;background:var(--terracotta)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="privacy-note"><span class="lock">🔒</span> 5 responses logged · 1 shared by Jalesa · 4 kept private (structured scores only — full text not visible)</div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">🎯 Confidence vs. actual</p>
+      <svg class="conf-chart" viewBox="0 0 240 110" preserveAspectRatio="none">
+        <polyline points="0,80 48,70 96,55 144,50 192,35 240,25" fill="none" stroke="#B7BFAE" stroke-width="3" stroke-linecap="round"/>
+        <polyline points="0,90 48,75 96,68 144,45 192,38 240,20" fill="none" stroke="#C1704F" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <div class="legend">
+        <span><span class="sw" style="background:#B7BFAE"></span>Predicted confidence</span>
+        <span><span class="sw" style="background:#C1704F"></span>Actual score</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
