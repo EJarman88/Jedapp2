@@ -2,13 +2,17 @@ import "server-only";
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import type { GrantStatus, UserRole } from "@/lib/supabase/database.types";
+import type { GrantStatus, PlanStyle, UserRole } from "@/lib/supabase/database.types";
+import type { ThemeId } from "@/lib/theme/themes";
 
 export interface SessionUser {
   id: string;
   email: string | undefined;
   role: UserRole;
   displayName: string;
+  themePreference: ThemeId | null;
+  planStyle: PlanStyle | null;
+  createdAt: string;
 }
 
 /** Returns the signed-in user's profile, or null if no one is logged in. */
@@ -22,7 +26,7 @@ export async function getSessionUser(): Promise<SessionUser | null> {
 
   const { data: profile } = await supabase
     .from("users")
-    .select("id, role, display_name")
+    .select("id, role, display_name, theme_preference, plan_style, created_at")
     .eq("id", user.id)
     .single();
 
@@ -33,6 +37,9 @@ export async function getSessionUser(): Promise<SessionUser | null> {
     email: user.email,
     role: profile.role,
     displayName: profile.display_name,
+    themePreference: profile.theme_preference,
+    planStyle: profile.plan_style,
+    createdAt: profile.created_at,
   };
 }
 
@@ -40,6 +47,16 @@ export async function getSessionUser(): Promise<SessionUser | null> {
 export async function requireFullAccess(): Promise<SessionUser> {
   const user = await getSessionUser();
   if (!user) redirect("/login");
+  if (user.role === "restricted_reports") redirect("/reports");
+  return user;
+}
+
+/** Redirects away unless the signed-in user is the student — the only role with an
+ * agenda/lessons Home Screen. Admin's real landing page is Settings. */
+export async function requireStudent(): Promise<SessionUser> {
+  const user = await getSessionUser();
+  if (!user) redirect("/login");
+  if (user.role === "admin") redirect("/settings");
   if (user.role === "restricted_reports") redirect("/reports");
   return user;
 }

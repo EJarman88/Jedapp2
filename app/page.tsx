@@ -5,5 +5,7 @@ export default async function RootPage() {
   const user = await getSessionUser();
 
   if (!user) redirect("/login");
-  redirect(user.role === "restricted_reports" ? "/reports" : "/home");
+  if (user.role === "restricted_reports") redirect("/reports");
+  if (user.role === "admin") redirect("/settings");
+  redirect("/home");
 }

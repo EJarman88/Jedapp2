@@ -1,21 +1,28 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { DEFAULT_THEME, type ThemeId } from "./themes";
+import type { ThemeId } from "./themes";
+import { saveThemePreference } from "./actions";
 
 interface ThemeContextValue {
   theme: ThemeId;
   /** True once a theme has been picked but not yet confirmed with Save. */
   isPreviewing: boolean;
   setTheme: (id: ThemeId) => void;
-  /** Confirms the currently previewed theme, clearing the "not saved yet" state. */
+  /** Confirms the currently previewed theme, persisting it for signed-in users. */
   save: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeId>(DEFAULT_THEME);
+export function ThemeProvider({
+  initialTheme,
+  children,
+}: {
+  initialTheme: ThemeId;
+  children: React.ReactNode;
+}) {
+  const [theme, setThemeState] = useState<ThemeId>(initialTheme);
   const [isPreviewing, setIsPreviewing] = useState(false);
 
   useEffect(() => {
@@ -29,7 +36,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const save = useCallback(() => {
     setIsPreviewing(false);
-  }, []);
+    void saveThemePreference(theme);
+  }, [theme]);
 
   return (
     <ThemeContext.Provider value={{ theme, isPreviewing, setTheme, save }}>
