@@ -51,6 +51,8 @@ export async function signUp(
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
   const displayName = String(formData.get("display_name") ?? "").trim();
+  const requestedRole = String(formData.get("requested_role") ?? "");
+  const dateOfBirth = String(formData.get("date_of_birth") ?? "").trim();
 
   if (!email || !password || !displayName) {
     return { error: "Fill in your name, email, and PIN." };
@@ -58,12 +60,21 @@ export async function signUp(
   if (!PIN_PATTERN.test(password)) {
     return { error: "PIN needs to be exactly 6 digits." };
   }
+  if (requestedRole !== "student" && requestedRole !== "restricted_reports") {
+    return { error: "Choose an account type." };
+  }
 
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { display_name: displayName } },
+    options: {
+      data: {
+        display_name: displayName,
+        requested_role: requestedRole,
+        date_of_birth: dateOfBirth || null,
+      },
+    },
   });
 
   if (error) {

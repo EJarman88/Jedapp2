@@ -2,13 +2,21 @@ import { Card, CardLabel } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ThemePicker } from "@/components/theme/theme-picker";
 import { ReportsAccessCard } from "@/components/settings/reports-access-card";
-import { AuthForm } from "@/components/auth/auth-form";
+import { ParentAccessCard } from "@/components/settings/parent-access-card";
 import { listAccounts } from "@/lib/auth/accounts";
-import { inviteRestrictedAccount } from "@/lib/auth/invite";
+import { getSessionUser } from "@/lib/auth/session";
+import { createClient } from "@/lib/supabase/server";
+import { isAdult } from "@/lib/utils";
+
+const ROLE_LABEL = {
+  admin: "Admin",
+  student: "Student",
+  restricted_reports: "Reports only",
+} as const;
 
 export default async function SettingsPage() {
-  const accounts = await listAccounts();
-  const restrictedAccount = accounts.find((a) => a.role === "restricted_reports");
+  const user = await getSessionUser();
+  if (!user) return null;
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-4">
@@ -25,40 +33,64 @@ export default async function SettingsPage() {
         </Card>
       </div>
 
+      {user.role === "student" && <StudentPrivacySection userId={user.id} />}
+
+      {user.role === "admin" && <AdminAccountSections />}
+    </main>
+  );
+}
+
+async function StudentPrivacySection({ userId }: { userId: string }) {
+  const supabase = await createClient();
+  const { data: profile } = await supabase
+    .from("users")
+    .select("date_of_birth, parent_access_enabled")
+    .eq("id", userId)
+    .single();
+
+  if (!profile) return null;
+
+  const eligible = isAdult(profile.date_of_birth);
+
+  return (
+    <div>
+      <CardLabel className="mb-2 mt-0">Parent access</CardLabel>
+      <Card>
+        {eligible ? (
+          <ParentAccessCard initialEnabled={profile.parent_access_enabled} />
+        ) : (
+          <p className="text-sm leading-relaxed text-ink-soft">
+            Once you turn 18, you&rsquo;ll be able to control whether a parent or
+            guardian can see your reports here.
+          </p>
+        )}
+      </Card>
+    </div>
+  );
+}
+
+async function AdminAccountSections() {
+  const accounts = await listAccounts();
+  const restrictedAccounts = accounts.filter((a) => a.role === "restricted_reports");
+
+  return (
+    <>
       <div>
-        <CardLabel className="mb-2 mt-0">Who can see your reports</CardLabel>
-        <Card>
-          {restrictedAccount ? (
-            <ReportsAccessCard
-              granteeUserId={restrictedAccount.id}
-              displayName={restrictedAccount.displayName}
-              initialStatus={restrictedAccount.grantStatus ?? "inert"}
-            />
-          ) : (
-            <div>
-              <p className="mb-4 text-xs leading-relaxed text-ink-soft">
-                Create dad&rsquo;s account below — he&rsquo;ll log in with the email and
-                PIN you set here. His reports access starts off; you can turn it on
-                anytime after.
-              </p>
-              <AuthForm
-                action={inviteRestrictedAccount}
-                submitLabel="Create account"
-                fields={[
-                  { name: "display_name", label: "His name", type: "text", autoComplete: "name" },
-                  { name: "email", label: "His email", type: "email", autoComplete: "email" },
-                  {
-                    name: "pin",
-                    label: "6-digit PIN",
-                    type: "password",
-                    autoComplete: "new-password",
-                    inputMode: "numeric",
-                    pattern: "\\d{6}",
-                    maxLength: 6,
-                  },
-                ]}
+        <CardLabel className="mb-2 mt-0">Who can see reports</CardLabel>
+        <Card className="flex flex-col gap-5">
+          {restrictedAccounts.length > 0 ? (
+            restrictedAccounts.map((account) => (
+              <ReportsAccessCard
+                key={account.id}
+                granteeUserId={account.id}
+                displayName={account.displayName}
+                initialStatus={account.grantStatus ?? "inert"}
               />
-            </div>
+            ))
+          ) : (
+            <p className="text-sm text-ink-soft">
+              No one has created a reports-only account yet.
+            </p>
           )}
         </Card>
       </div>
@@ -72,11 +104,11 @@ export default async function SettingsPage() {
                 <p className="text-sm font-medium">{account.displayName}</p>
                 <p className="text-xs text-ink-soft">{account.email}</p>
               </div>
-              <Badge variant="neutral">{account.role === "admin" ? "Admin" : "Reports only"}</Badge>
+              <Badge variant="neutral">{ROLE_LABEL[account.role]}</Badge>
             </div>
           ))}
         </Card>
       </div>
-    </main>
+    </>
   );
 }

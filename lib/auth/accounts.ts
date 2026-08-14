@@ -12,7 +12,7 @@ export interface Account {
   grantStatus: GrantStatus | null;
 }
 
-/** Admin-only: every account that has ever signed up (at most two — Jalisa + dad). */
+/** Admin-only: every account that has ever signed up. */
 export async function listAccounts(): Promise<Account[]> {
   const supabase = await createClient();
 

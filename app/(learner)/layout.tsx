@@ -1,8 +1,8 @@
 import { Nav } from "@/components/layout/nav";
-import { requireAdmin } from "@/lib/auth/session";
+import { requireFullAccess } from "@/lib/auth/session";
 
 export default async function LearnerLayout({ children }: { children: React.ReactNode }) {
-  const user = await requireAdmin();
+  const user = await requireFullAccess();
 
   return (
     <div className="flex flex-1 flex-col">
