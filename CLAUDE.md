@@ -78,19 +78,23 @@ feature spec seems to imply otherwise — flag it instead.
    trauma, or mood. Behavior only, never "why."
 
 5. **Account model.**
-   - Two roles: `admin` (full access to everything, including granting/revoking dad's
-     access) and `restricted_reports` (dad — see below). More than one person can hold
-     the `admin` role — in practice this is the account owner plus Jalisa — any admin
-     can manage dad's access grant, not just whichever admin created it.
-   - Dad = separate login, scoped ONLY to Reports (structured data — see Reporting phase).
-     No access to lessons, Ask Me (Almost) Anything, or Talk to Claude. Exactly one
-     `restricted_reports` account can ever exist.
+   - Three roles: `admin` (account owner — full control, including granting/revoking
+     reports access), `student` (Jalisa — lessons, practice, Ask Me (Almost) Anything;
+     no admin powers), and `restricted_reports` (parents/guardians — Reports only, no
+     access to lessons, Ask Me (Almost) Anything, or Talk to Claude).
+   - Caps: exactly one `admin`, exactly one `student`, up to three
+     `restricted_reports` accounts.
    - All accounts are self-service signups (no invite step) — the signup form asks
-     which kind of account this is; "Reports only" stops being offered once dad's
-     account has been created.
-   - Dad's account is inert until an admin explicitly activates it.
-   - Access revocation takes effect immediately; re-granting does not require
+     which kind of account this is, and only offers account types that still have an
+     open slot.
+   - A `restricted_reports` account is inert until the admin explicitly activates it;
+     revocation takes effect immediately, and re-granting does not require
      re-registration.
+   - Because the student is an adult, she controls whether the admin can see her
+     reports at all — a "parent access" toggle in her own Settings, available once
+     she's 18+ (enforced server-side, not just hidden in the UI for minors). This is
+     separate from, and does not affect, the admin's ability to manage
+     `restricted_reports` grants.
 
 6. **"Ask Me (Almost) Anything"** is the correct name for the outside-help feature — do
    not call it "Homework Help" (there's no school/homework context here). It has two

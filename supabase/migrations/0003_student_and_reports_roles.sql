@@ -1,5 +1,5 @@
 -- Replaces the old 2-role model (single admin = the learner herself) with three
--- roles: admin (capped at 1 — already exists), student (capped at 2), and
+-- roles: admin (capped at 1 — already exists), student (capped at 1 — Jalisa), and
 -- restricted_reports (capped at 3). All self-service signup, role chosen explicitly
 -- via `requested_role` in user metadata. Admin is no longer offered at signup at all
 -- — it's permanently filled.
@@ -26,8 +26,8 @@ begin
 
   if requested_role = 'student' then
     select count(*) into student_count from public.users where role = 'student';
-    if student_count >= 2 then
-      raise exception 'Both student account slots are already taken.';
+    if student_count >= 1 then
+      raise exception 'The student account has already been created.';
     end if;
   else
     select count(*) into restricted_count from public.users where role = 'restricted_reports';
@@ -68,7 +68,7 @@ security definer
 stable
 set search_path = public
 as $$
-  select (select count(*) from public.users where role = 'student') < 2;
+  select (select count(*) from public.users where role = 'student') < 1;
 $$;
 
 create or replace function public.restricted_signup_available()
