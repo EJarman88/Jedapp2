@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { signOut } from "@/lib/auth/actions";
 
 const LINKS = [
   { href: "/home", label: "Home" },
   { href: "/settings", label: "Settings" },
 ];
 
-export function Nav() {
+export function Nav({ displayName }: { displayName?: string }) {
   const pathname = usePathname();
 
   return (
@@ -17,7 +18,7 @@ export function Nav() {
       <Link href="/" className="font-serif text-lg font-semibold text-terracotta">
         EdApp
       </Link>
-      <nav className="flex gap-5">
+      <nav className="flex items-center gap-5">
         {LINKS.map((link) => (
           <Link
             key={link.href}
@@ -30,6 +31,14 @@ export function Nav() {
             {link.label}
           </Link>
         ))}
+        {displayName && (
+          <span className="hidden text-sm text-ink-soft sm:inline">Hi, {displayName}</span>
+        )}
+        <form action={signOut}>
+          <button type="submit" className="text-sm font-medium text-ink-soft transition-colors hover:text-ink">
+            Sign out
+          </button>
+        </form>
       </nav>
     </header>
   );
