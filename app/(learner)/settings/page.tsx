@@ -105,6 +105,16 @@ async function AdminAccountSections() {
       </div>
 
       <div>
+        <CardLabel className="mb-2 mt-0">Curriculum</CardLabel>
+        <Card>
+          <Link href="/videos" className="flex items-center justify-between text-sm font-medium">
+            Curated videos
+            <span className="text-ink-soft">›</span>
+          </Link>
+        </Card>
+      </div>
+
+      <div>
         <CardLabel className="mb-2 mt-0">Accounts</CardLabel>
         <Card className="flex flex-col gap-4">
           {accounts.map((account) => (

@@ -1,0 +1,49 @@
+{
+  "id": "science-reading-graphs",
+  "subject": "Science",
+  "topicLabel": "Data & Graphs",
+  "title": "Reading a Line Graph",
+  "standardTag": "SCI.D.3 — Interpret data presented in graphs and tables",
+  "skillTag": "data-graphs",
+  "tipLine": "Start by reading both axis labels before you look at the line itself.",
+  "vocabTerms": [
+    { "term": "variable", "definition": "something that can change or be changed, and is measured in an experiment" },
+    { "term": "trend", "definition": "the general direction data moves over time — up, down, or flat" }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "heading": "What the axes tell you",
+      "body": "A line graph shows how one variable changes in relation to another. The horizontal axis (x-axis) usually shows time or another independent variable. The vertical axis (y-axis) shows the value being measured. Always check the units on each axis before drawing conclusions."
+    },
+    {
+      "type": "content",
+      "heading": "Spotting a trend",
+      "body": "A trend is the general direction the data moves — rising, falling, or staying flat. A single data point can be misleading, but a trend across many points tells you something real is happening. Look at the overall shape of the line, not just the start and end points."
+    },
+    {
+      "type": "check",
+      "question": "A graph shows a plant's height measured every week for two months, and the line rises steadily each week. What does this line represent?",
+      "options": [
+        "A single measurement of the plant",
+        "A trend of increasing height over time",
+        "The units used to measure height"
+      ],
+      "correctIndex": 1,
+      "feedbackCorrect": "Right — a steady rise across many weeks is a trend, not just one data point.",
+      "feedbackIncorrect": "Not quite — one rising line across many weeks shows a trend (increasing height over time), not a single measurement."
+    },
+    {
+      "type": "check",
+      "question": "Before drawing any conclusion from a line graph, what should you check first?",
+      "options": [
+        "The color of the line",
+        "The labels and units on both axes",
+        "How long the graph took to make"
+      ],
+      "correctIndex": 1,
+      "feedbackCorrect": "Right — axis labels and units tell you what's actually being measured.",
+      "feedbackIncorrect": "Not quite — always check the labels and units on both axes first, so you know what the graph is actually measuring."
+    }
+  ]
+}

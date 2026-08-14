@@ -5,6 +5,7 @@ export type GrantStatus = "inert" | "active" | "revoked";
 export type PlanStyle = "fixed" | "flexible" | "suggested";
 export type AgendaItemType = "lesson" | "practice" | "other";
 export type AgendaStatus = "pending" | "done";
+export type LessonProgressStatus = "not_started" | "in_progress" | "completed";
 
 export interface Database {
   public: {
@@ -49,6 +50,7 @@ export interface Database {
           scheduled_date: string;
           status: AgendaStatus;
           carried_over_from: string | null;
+          content_slug: string | null;
           order_index: number;
           created_at: string;
         };
@@ -61,12 +63,62 @@ export interface Database {
           item_type: AgendaItemType;
           scheduled_date?: string;
           status?: AgendaStatus;
+          content_slug?: string | null;
           order_index?: number;
         };
         Update: {
           status?: AgendaStatus;
           scheduled_date?: string;
           carried_over_from?: string | null;
+        };
+        Relationships: [];
+      };
+      curated_videos: {
+        Row: {
+          id: string;
+          skill_tag: string;
+          title: string;
+          youtube_url: string;
+          channel_name: string | null;
+          duration_seconds: number | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          skill_tag: string;
+          title: string;
+          youtube_url: string;
+          channel_name?: string | null;
+          duration_seconds?: number | null;
+        };
+        Update: {
+          skill_tag?: string;
+          title?: string;
+          youtube_url?: string;
+          channel_name?: string | null;
+          duration_seconds?: number | null;
+        };
+        Relationships: [];
+      };
+      lesson_progress: {
+        Row: {
+          id: string;
+          user_id: string;
+          lesson_id: string;
+          status: LessonProgressStatus;
+          last_position: number;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          lesson_id: string;
+          status?: LessonProgressStatus;
+          last_position?: number;
+        };
+        Update: {
+          status?: LessonProgressStatus;
+          last_position?: number;
         };
         Relationships: [];
       };

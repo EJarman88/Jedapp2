@@ -12,6 +12,7 @@ export interface AgendaItemView {
   status: AgendaStatus;
   isCarryover: boolean;
   locked: boolean;
+  contentSlug: string | null;
 }
 
 function todayISO(): string {
@@ -27,6 +28,7 @@ const SEED_ITEMS = [
     subtitle: "Reading Comprehension",
     subject: "RLA",
     item_type: "lesson" as const,
+    content_slug: "rla-claims-evidence",
     order_index: 0,
   },
   {
@@ -34,6 +36,7 @@ const SEED_ITEMS = [
     subtitle: "5 questions · mixed subjects",
     subject: null,
     item_type: "practice" as const,
+    content_slug: null,
     order_index: 1,
   },
   {
@@ -41,6 +44,7 @@ const SEED_ITEMS = [
     subtitle: "Not started",
     subject: "Math",
     item_type: "lesson" as const,
+    content_slug: "math-linear-equations",
     order_index: 2,
   },
 ];
@@ -85,7 +89,7 @@ export async function getTodayAgenda(userId: string, planStyle: PlanStyle): Prom
 
   const { data: items } = await supabase
     .from("agenda_items")
-    .select("id, title, subtitle, subject, item_type, status, carried_over_from")
+    .select("id, title, subtitle, subject, item_type, status, carried_over_from, content_slug")
     .eq("user_id", userId)
     .eq("scheduled_date", today)
     .order("order_index");
@@ -105,6 +109,7 @@ export async function getTodayAgenda(userId: string, planStyle: PlanStyle): Prom
       status: item.status,
       isCarryover: item.carried_over_from !== null,
       locked,
+      contentSlug: item.content_slug,
     };
   });
 }
