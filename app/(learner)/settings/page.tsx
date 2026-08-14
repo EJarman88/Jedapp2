@@ -1,6 +1,6 @@
 import { Card, CardLabel } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ThemePicker } from "@/components/theme/theme-picker";
+import { AppearanceSection } from "@/components/settings/appearance-section";
 import { ReportsAccessCard } from "@/components/settings/reports-access-card";
 import { ParentAccessCard } from "@/components/settings/parent-access-card";
 import { listAccounts } from "@/lib/auth/accounts";
@@ -22,16 +22,7 @@ export default async function SettingsPage() {
     <main className="mx-auto flex max-w-md flex-col gap-4">
       <h1 className="font-serif text-2xl font-medium">Settings</h1>
 
-      <div>
-        <CardLabel className="mb-2 mt-0">Appearance</CardLabel>
-        <Card>
-          <p className="mb-1 text-sm font-medium">Background theme</p>
-          <p className="mb-4 text-xs text-ink-soft">
-            Pick whatever feels easiest to read. You can change this anytime.
-          </p>
-          <ThemePicker />
-        </Card>
-      </div>
+      <AppearanceSection />
 
       {user.role === "student" && <StudentPrivacySection userId={user.id} />}
 
