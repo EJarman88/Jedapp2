@@ -7,7 +7,7 @@ file for whatever you're building that session.
 
 ## What this is
 
-EdApp is a GED test-prep companion built for Jalesa, an 18-year-old adult learner
+EdApp is a GED test-prep companion built for Jalisa, an 18-year-old adult learner
 (Maryland resident) who is no longer enrolled in public school. Goal: GED credential,
 all 4 subjects, by February 2027. Starting point: approx. 9th-grade level.
 
@@ -71,17 +71,17 @@ feature spec seems to imply otherwise — flag it instead.
      link, revocable anytime).
    - Structured trait scores persist regardless of the raw-text choice; raw text does not.
    - Dad's account (see Auth phase) NEVER sees raw extended-response text under any
-     circumstance unless Jalesa has specifically named him as reviewer for that one item.
+     circumstance unless Jalisa has specifically named him as reviewer for that one item.
 
 4. **Engagement/behavioral signals are metadata-only.** Time-on-task, paste-detection,
    answer patterns, avoidance patterns — never infer or store emotional/mental state,
    trauma, or mood. Behavior only, never "why."
 
 5. **Account model.**
-   - Jalesa = admin. Full access to everything, including granting/revoking dad's access.
+   - Jalisa = admin. Full access to everything, including granting/revoking dad's access.
    - Dad = separate login, scoped ONLY to Reports (structured data — see Reporting phase).
      No access to lessons, Ask Me (Almost) Anything, or Talk to Claude.
-   - Dad's account is inert until Jalesa explicitly activates it.
+   - Dad's account is inert until Jalisa explicitly activates it.
    - Access revocation takes effect immediately; re-granting does not require
      re-registration.
 
@@ -95,7 +95,7 @@ feature spec seems to imply otherwise — flag it instead.
 
 ```
 /app                    — Next.js App Router pages
-  /(learner)             — Jalesa's routes (home, lessons, practice, ask, settings)
+  /(learner)             — Jalisa's routes (home, lessons, practice, ask, settings)
   /(admin)                — Dad's restricted routes (reports only)
   /api                     — API routes (Claude calls, Supabase server actions)
 /components

@@ -32,12 +32,12 @@ reviewer_links        -- id, response_id, token (unique, unguessable), created_a
    - **Delete**: set `privacy_status='deleted'`, and actually null out or hard-delete
      `raw_text` from the row — don't just flag it, remove it. `trait_scores` remain.
    - **Keep private**: `privacy_status='private'`, raw_text stays, visible only to
-     Jalesa (never dad, never anyone else).
+     Jalisa (never dad, never anyone else).
    - **Share**: `privacy_status='shared'`, generate a `reviewer_links` row with a random
      token, produce a shareable URL (`/review/[token]`). This page requires no login —
      it's a one-time-link pattern — but MUST check `revoked_at IS NULL` on every load,
      not just at creation.
-5. **Revocation**: Jalesa can set `revoked_at` on a `reviewer_links` row at any time,
+5. **Revocation**: Jalisa can set `revoked_at` on a `reviewer_links` row at any time,
    from her own view of that response. This should be enforced at the RLS/query level
    (the review page query includes `WHERE revoked_at IS NULL`), not just hidden in UI.
 6. **Auto-delete job**: a scheduled function (Supabase cron / Vercel cron) that finds
@@ -56,10 +56,10 @@ Claude API prompt for scoring should produce:
 
 ## RLS rules (verify explicitly, write a test)
 
-- `raw_text` column: readable by (a) the response's own `user_id` (Jalesa), or (b) a
+- `raw_text` column: readable by (a) the response's own `user_id` (Jalisa), or (b) a
   valid unrevoked `reviewer_links` token holder for that specific response_id. NEVER
   readable by the `restricted_reports` role (dad's default login) under any status.
-- `trait_scores`: readable by Jalesa always; readable by dad ONLY if his `access_grants`
+- `trait_scores`: readable by Jalisa always; readable by dad ONLY if his `access_grants`
   status is active (per Phase 2) — this table is NOT subject to the same lockout as
   raw_text, since structured scores are always safe to share per product design.
 

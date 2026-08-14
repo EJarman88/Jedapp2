@@ -33,7 +33,7 @@ quotes          -- id, text, attribution, category ('resilience'|'general')  -- 
 - **Vocab terms**: dotted underline, tappable, reveals inline plain-language definition
   (from `vocab_terms` table). Keep the reveal lightweight — no modal, inline expansion.
 - **Standards tag**: shown quietly on the content card (e.g., "RLA.2.a — Determine
-  central ideas") — visible to Jalesa but not emphasized; this same tag feeds admin
+  central ideas") — visible to Jalisa but not emphasized; this same tag feeds admin
   reporting later.
 - **Embedded comprehension checks**: multiple-choice, immediate feedback on selection
   (correct = sage green + checkmark, incorrect = show correct answer + a supportive,
@@ -51,7 +51,7 @@ quotes          -- id, text, attribution, category ('resilience'|'general')  -- 
   once, ahead of time, only to verify a video still exists / pull its title metadata,
   never for live per-lesson-load search.
 - Build an admin-only internal page (simple table view is fine, doesn't need to be
-  pretty) where Jalesa or the project owner can add/edit `curated_videos` rows without
+  pretty) where Jalisa or the project owner can add/edit `curated_videos` rows without
   a code deploy.
 
 ## Quote bank

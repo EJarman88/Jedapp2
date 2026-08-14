@@ -30,7 +30,7 @@ help_messages   -- id, problem_id, role ('user'|'assistant'), content, created_a
    a misread).
 5. For other subjects: typed input.
 6. Full transcript logged. Apply the same privacy tiers as Phase 6 (delete/keep/share)
-   if the project owner confirms that's wanted — otherwise default to: visible to Jalesa
+   if the project owner confirms that's wanted — otherwise default to: visible to Jalisa
    always, visible to dad only if his Reports access includes this data.
 7. **Session cap**: 5 sessions/day (cost control). No limit on pages per single session.
 

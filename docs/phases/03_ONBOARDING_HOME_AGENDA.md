@@ -1,6 +1,6 @@
 # Phase 3 — Onboarding, Home Screen & Agenda
 
-Load this with CLAUDE.md. Goal: Jalesa's actual daily entry point into the app, fully
+Load this with CLAUDE.md. Goal: Jalisa's actual daily entry point into the app, fully
 functional and persisted.
 
 ## Onboarding (first login only)

@@ -1,7 +1,7 @@
 # Phase 8 — Reporting & Admin Dashboard
 
 Load this with CLAUDE.md. This screen is shared between two consumers with different
-access levels: Jalesa (full, via her own Settings → "View my Reports") and dad
+access levels: Jalisa (full, via her own Settings → "View my Reports") and dad
 (restricted role, Reports-only login, gated by `access_grants`). Build ONE dashboard
 component, parameterize by viewer role — don't build two separate dashboards.
 
@@ -10,7 +10,7 @@ component, parameterize by viewer role — don't build two separate dashboards.
 - **Always-on tier** (both viewers, when access is granted): subject score cards,
   incentive progress, trait-score trends, confidence-vs-actual, weekly digest. NEVER
   includes raw extended-response text.
-- **Full-text tier**: raw extended-response text — visible ONLY to Jalesa, or to a named
+- **Full-text tier**: raw extended-response text — visible ONLY to Jalisa, or to a named
   reviewer via their one-time link (Phase 6). Dad's restricted role never gets this tier
   regardless of `access_grants` status.
 
@@ -36,7 +36,7 @@ component, parameterize by viewer role — don't build two separate dashboards.
 
 ## Role-based rendering
 
-- If viewer = Jalesa: show everything, plus a note that this is her own view.
+- If viewer = Jalisa: show everything, plus a note that this is her own view.
 - If viewer = dad (restricted): identical layout/data, but gate the route itself behind
   the Phase 2 RLS/access check — if access is inert/revoked, show a plain "not currently
   available" state, not a broken page.

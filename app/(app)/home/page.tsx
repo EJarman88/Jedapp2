@@ -12,7 +12,7 @@ export default function HomePage() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-4">
       <div>
-        <h1 className="font-serif text-2xl font-medium">Welcome back, Jalesa</h1>
+        <h1 className="font-serif text-2xl font-medium">Welcome back, Jalisa</h1>
         <p className="mt-1 text-sm text-ink-soft">Tuesday · Day 14 of your plan</p>
       </div>
 

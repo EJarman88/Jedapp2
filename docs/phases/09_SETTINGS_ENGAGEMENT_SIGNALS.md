@@ -1,7 +1,7 @@
 # Phase 9 — Settings & Engagement Signals
 
 Load this with CLAUDE.md. Two related pieces: the Settings screen (where most of the
-account-control mechanics surface to Jalesa) and the behavioral engagement-signal
+account-control mechanics surface to Jalisa) and the behavioral engagement-signal
 system that feeds the weekly digest (Phase 8).
 
 ## Settings screen (match reference mockup exactly)
@@ -17,7 +17,7 @@ Sections, in order:
 3. **Weekly digest** — independent toggle writing to `digest_subscriptions.enabled`
    (Phase 2 schema) — explicitly separate from the full-access toggle above.
 4. **Your own reports** — link into the same dashboard component from Phase 8, viewed
-   as Jalesa. NOT surfaced on the Home Screen (per product decision) — only reachable
+   as Jalisa. NOT surfaced on the Home Screen (per product decision) — only reachable
    from here.
 5. **Support** — "Reach out to [Name]" card. Display NAME ONLY, never an email or phone
    number as visible text. The action button should be a `tel:` or `sms:` link with the
@@ -59,7 +59,7 @@ engagement_events -- id, user_id, event_type, context_type, context_id, metadata
 
 - These events generate soft internal flags only, surfaced in the digest as plain
   behavioral sentences ("Math avoided twice — may be worth a check-in"). NEVER an
-  in-app warning, alert, or accusatory message to Jalesa herself.
+  in-app warning, alert, or accusatory message to Jalisa herself.
 - No event type or metadata field should ever encode an inferred emotional/mental state.
   If you find yourself wanting to add a field like `mood_guess` or `stress_level` —
   don't. Flag it to the project owner instead of building it.
