@@ -2,15 +2,13 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import type { AuthFormState } from "@/lib/auth/form-state";
 
-export interface AuthFormState {
-  error?: string;
-  info?: string;
-}
+const PIN_PATTERN = /^\d{6}$/;
 
 function friendlyAuthError(message: string): string {
   if (message.toLowerCase().includes("invalid login credentials")) {
-    return "That email or password didn't match. Try again.";
+    return "That email or PIN didn't match. Try again.";
   }
   return message;
 }
@@ -33,7 +31,7 @@ export async function signIn(
   const password = String(formData.get("password") ?? "");
 
   if (!email || !password) {
-    return { error: "Enter your email and password." };
+    return { error: "Enter your email and PIN." };
   }
 
   const supabase = await createClient();
@@ -55,10 +53,10 @@ export async function signUp(
   const displayName = String(formData.get("display_name") ?? "").trim();
 
   if (!email || !password || !displayName) {
-    return { error: "Fill in your name, email, and password." };
+    return { error: "Fill in your name, email, and PIN." };
   }
-  if (password.length < 8) {
-    return { error: "Password needs to be at least 8 characters." };
+  if (!PIN_PATTERN.test(password)) {
+    return { error: "PIN needs to be exactly 6 digits." };
   }
 
   const supabase = await createClient();

@@ -2,13 +2,16 @@
 
 import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
-import type { AuthFormState } from "@/lib/auth/actions";
+import type { AuthFormState } from "@/lib/auth/form-state";
 
 interface Field {
   name: string;
   label: string;
   type: string;
   autoComplete?: string;
+  inputMode?: "text" | "numeric" | "email";
+  pattern?: string;
+  maxLength?: number;
 }
 
 interface AuthFormProps {
@@ -29,6 +32,9 @@ export function AuthForm({ action, fields, submitLabel }: AuthFormProps) {
             name={field.name}
             type={field.type}
             autoComplete={field.autoComplete}
+            inputMode={field.inputMode}
+            pattern={field.pattern}
+            maxLength={field.maxLength}
             required
             className="rounded-xl border border-line bg-background px-4 py-2.5 text-sm text-ink outline-none transition-colors focus:border-terracotta"
           />

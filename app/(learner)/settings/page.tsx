@@ -2,7 +2,9 @@ import { Card, CardLabel } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ThemePicker } from "@/components/theme/theme-picker";
 import { ReportsAccessCard } from "@/components/settings/reports-access-card";
+import { AuthForm } from "@/components/auth/auth-form";
 import { listAccounts } from "@/lib/auth/accounts";
+import { inviteRestrictedAccount } from "@/lib/auth/invite";
 
 export default async function SettingsPage() {
   const accounts = await listAccounts();
@@ -33,7 +35,30 @@ export default async function SettingsPage() {
               initialStatus={restrictedAccount.grantStatus ?? "inert"}
             />
           ) : (
-            <p className="text-sm text-ink-soft">No one else has created an account yet.</p>
+            <div>
+              <p className="mb-4 text-xs leading-relaxed text-ink-soft">
+                Create dad&rsquo;s account below — he&rsquo;ll log in with the email and
+                PIN you set here. His reports access starts off; you can turn it on
+                anytime after.
+              </p>
+              <AuthForm
+                action={inviteRestrictedAccount}
+                submitLabel="Create account"
+                fields={[
+                  { name: "display_name", label: "His name", type: "text", autoComplete: "name" },
+                  { name: "email", label: "His email", type: "email", autoComplete: "email" },
+                  {
+                    name: "pin",
+                    label: "6-digit PIN",
+                    type: "password",
+                    autoComplete: "new-password",
+                    inputMode: "numeric",
+                    pattern: "\\d{6}",
+                    maxLength: 6,
+                  },
+                ]}
+              />
+            </div>
           )}
         </Card>
       </div>
