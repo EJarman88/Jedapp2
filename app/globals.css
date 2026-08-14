@@ -1,0 +1,90 @@
+@import "tailwindcss";
+@config "../tailwind.config.ts";
+
+/*
+ * Background themes — CLAUDE.md "Design system" table. Swapped at runtime via the
+ * `data-theme` attribute on <html> (see lib/theme/theme-context.tsx), never a page
+ * reload. Accent colors (terracotta/sage/amber) are constant across themes; their
+ * "soft" variants are derived with color-mix so they stay legible on dark themes
+ * (Quiet Night, Cocoa) without hand-picking 21 extra hex values.
+ */
+:root,
+[data-theme="warm-cream"] {
+  --color-bg: #f6f1e8;
+  --color-ink: #2c2620;
+  --color-card: #fffefb;
+  --color-line: #e7dfd1;
+}
+
+[data-theme="soft-sage"] {
+  --color-bg: #edf1e7;
+  --color-ink: #2e3928;
+  --color-card: #fbfcf9;
+  --color-line: #d9e1d1;
+}
+
+[data-theme="warm-gray"] {
+  --color-bg: #ebe9e4;
+  --color-ink: #2c2c2a;
+  --color-card: #fafaf8;
+  --color-line: #dcdad3;
+}
+
+[data-theme="quiet-night"] {
+  --color-bg: #242220;
+  --color-ink: #f1ede6;
+  --color-card: #2e2b27;
+  --color-line: #3c3833;
+}
+
+[data-theme="golden-hour"] {
+  --color-bg: #f5ead3;
+  --color-ink: #4a3a18;
+  --color-card: #fdfaf3;
+  --color-line: #e9dab4;
+}
+
+[data-theme="soft-clay"] {
+  --color-bg: #f5e6de;
+  --color-ink: #4a2e24;
+  --color-card: #fdf7f3;
+  --color-line: #ead3c4;
+}
+
+[data-theme="cocoa"] {
+  --color-bg: #3e2e22;
+  --color-ink: #f1e6d9;
+  --color-card: #4a3829;
+  --color-line: #5a4636;
+}
+
+:root {
+  /* Accents — constant across all background themes. */
+  --color-terracotta: #c1704f;
+  --color-sage: #7c9270;
+  --color-amber: #c98a3e;
+
+  /* Muted ink for secondary text; derived from each theme's own ink color. */
+  --color-ink-soft: color-mix(in oklch, var(--color-ink) 65%, transparent);
+
+  /* Soft accent backgrounds (badges, pills); derived so they read correctly on
+     dark themes instead of assuming a light card underneath. */
+  --color-terracotta-soft: color-mix(in oklch, var(--color-terracotta) 30%, var(--color-card) 70%);
+  --color-sage-soft: color-mix(in oklch, var(--color-sage) 28%, var(--color-card) 72%);
+  --color-amber-soft: color-mix(in oklch, var(--color-amber) 30%, var(--color-card) 70%);
+}
+
+html {
+  color-scheme: light;
+}
+
+[data-theme="quiet-night"],
+[data-theme="cocoa"] {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
