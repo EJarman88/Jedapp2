@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Link from "next/link";
 import { Card, CardLabel } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { toggleAgendaItem } from "@/lib/agenda/actions";
@@ -30,28 +31,10 @@ export function AgendaCard({ items: initialItems }: { items: AgendaItemView[] })
         {items.length === 0 ? (
           <p className="text-sm text-ink-soft">Nothing on the agenda today.</p>
         ) : (
-          items.map((item, index) => (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => handleToggle(item)}
-              disabled={item.locked}
-              className={cn(
-                "flex items-center gap-3 border-line py-2.5 text-left",
-                index > 0 && "border-t",
-                item.locked && "opacity-50",
-              )}
-            >
-              <span
-                className={cn(
-                  "flex h-[21px] w-[21px] shrink-0 items-center justify-center rounded-full border text-[11px]",
-                  item.status === "done"
-                    ? "border-sage bg-sage text-white"
-                    : "border-line text-ink-soft",
-                )}
-              >
-                {item.status === "done" ? "✓" : ""}
-              </span>
+          items.map((item, index) => {
+            const navigable = item.itemType === "lesson" && item.contentSlug && !item.locked;
+
+            const label = (
               <span className="flex-1">
                 <span className="text-[13px] font-medium">
                   {item.title}
@@ -65,9 +48,42 @@ export function AgendaCard({ items: initialItems }: { items: AgendaItemView[] })
                   {item.subject ? `${item.subject} · ${item.subtitle ?? ""}` : item.subtitle}
                 </span>
               </span>
-              {!item.locked && <span className="text-ink-soft">›</span>}
-            </button>
-          ))
+            );
+
+            return (
+              <div
+                key={item.id}
+                className={cn(
+                  "flex items-center gap-3 border-line py-2.5",
+                  index > 0 && "border-t",
+                  item.locked && "opacity-50",
+                )}
+              >
+                <button
+                  type="button"
+                  onClick={() => handleToggle(item)}
+                  disabled={item.locked}
+                  aria-label={item.status === "done" ? `Mark "${item.title}" not done` : `Mark "${item.title}" done`}
+                  className={cn(
+                    "flex h-[21px] w-[21px] shrink-0 items-center justify-center rounded-full border text-[11px]",
+                    item.status === "done"
+                      ? "border-sage bg-sage text-white"
+                      : "border-line text-ink-soft",
+                  )}
+                >
+                  {item.status === "done" ? "✓" : ""}
+                </button>
+                {navigable ? (
+                  <Link href={`/lessons/${item.contentSlug}`} className="flex flex-1 items-center gap-3">
+                    {label}
+                    <span className="text-ink-soft">›</span>
+                  </Link>
+                ) : (
+                  label
+                )}
+              </div>
+            );
+          })
         )}
       </Card>
     </div>

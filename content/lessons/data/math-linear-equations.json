@@ -1,0 +1,25 @@
+{
+  "id": "math-linear-equations",
+  "subject": "Math",
+  "topicLabel": "Algebraic Reasoning",
+  "title": "Solving Linear Equations with One Variable",
+  "standardTag": "MA.A.7 — Solve linear equations in one variable",
+  "skillTag": "linear-equations",
+  "tipLine": "Work one step at a time — undo addition or subtraction first, then multiplication or division.",
+  "vocabTerms": [],
+  "blocks": [
+    {
+      "type": "content",
+      "heading": "Isolating the variable",
+      "body": "To solve an equation like 3x + 5 = 20, your goal is to get x alone on one side. First undo the addition or subtraction, then undo the multiplication or division. Whatever you do to one side of the equation, you have to do to the other side too, to keep both sides equal."
+    },
+    {
+      "type": "check",
+      "question": "Solve for x: 3x + 5 = 20",
+      "options": ["x = 3", "x = 5", "x = 25"],
+      "correctIndex": 1,
+      "feedbackCorrect": "Right — subtract 5 from both sides to get 3x = 15, then divide both sides by 3 to get x = 5.",
+      "feedbackIncorrect": "Not quite — subtract 5 from both sides first: 3x = 15. Then divide both sides by 3: x = 5."
+    }
+  ]
+}

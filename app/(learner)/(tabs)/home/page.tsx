@@ -38,6 +38,10 @@ export default async function HomePage() {
   );
 
   const nextItem = agenda.find((item) => item.status !== "done");
+  const nextItemHref =
+    nextItem?.itemType === "lesson" && nextItem.contentSlug
+      ? `/lessons/${nextItem.contentSlug}`
+      : "/practice";
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-4">
@@ -63,7 +67,7 @@ export default async function HomePage() {
       </Card>
 
       {nextItem && (
-        <Link href="/practice">
+        <Link href={nextItemHref}>
           <Card className="flex cursor-pointer items-center justify-between bg-gradient-to-br from-terracotta-soft to-card">
             <div>
               <p className="font-serif text-base font-semibold">Continue where you left off</p>

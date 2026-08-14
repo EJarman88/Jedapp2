@@ -1,0 +1,32 @@
+{
+  "id": "rla-claims-evidence",
+  "subject": "RLA",
+  "topicLabel": "Reading Comprehension",
+  "title": "Identifying an Author's Argument",
+  "standardTag": "RLA.R.2 — Determine central ideas and themes",
+  "skillTag": "claims-vs-evidence",
+  "tipLine": "Take your time — you don't need to catch everything on the first read.",
+  "vocabTerms": [
+    { "term": "claim", "definition": "a statement someone argues is true" },
+    { "term": "evidence", "definition": "facts, examples, or data that back up a claim" }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "heading": "What's a claim vs. evidence?",
+      "body": "A claim is what the author wants you to believe. Evidence backs it up — facts, examples, or data. Strong readers learn to spot the difference: the claim is the point being argued, and the evidence is what's offered to convince you it's true."
+    },
+    {
+      "type": "check",
+      "question": "\"City council should fund the new bike lanes — three neighboring cities saw a 40% drop in traffic accidents after similar projects.\" What is the claim?",
+      "options": [
+        "Traffic accidents happen in cities",
+        "City council should fund the bike lanes",
+        "Three cities are neighbors"
+      ],
+      "correctIndex": 1,
+      "feedbackCorrect": "Right — that's the position being argued. The accident stat is the evidence.",
+      "feedbackIncorrect": "Not quite — the claim is the position being argued: that city council should fund the bike lanes. The accident statistic is the evidence used to support it."
+    }
+  ]
+}
