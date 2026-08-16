@@ -105,6 +105,22 @@ async function AdminAccountSections() {
       </div>
 
       <div>
+        <CardLabel className="mb-2 mt-0">Preview</CardLabel>
+        <Card>
+          <Link href="/home" className="flex items-center justify-between text-sm font-medium">
+            <span>
+              Preview as student
+              <span className="mt-0.5 block text-xs font-normal text-ink-soft">
+                See the real lesson/agenda experience under your own account — a
+                separate agenda and progress from hers, so nothing here touches her data.
+              </span>
+            </span>
+            <span className="shrink-0 text-ink-soft">›</span>
+          </Link>
+        </Card>
+      </div>
+
+      <div>
         <CardLabel className="mb-2 mt-0">Curriculum</CardLabel>
         <Card>
           <Link href="/videos" className="flex items-center justify-between text-sm font-medium">

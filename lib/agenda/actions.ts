@@ -1,11 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { requireStudent } from "@/lib/auth/session";
+import { requireStudentOrAdmin } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 
 export async function toggleAgendaItem(itemId: string, done: boolean): Promise<void> {
-  await requireStudent();
+  await requireStudentOrAdmin();
 
   const supabase = await createClient();
   await supabase

@@ -61,6 +61,21 @@ export async function requireStudent(): Promise<SessionUser> {
   return user;
 }
 
+/**
+ * Same gate as requireStudent(), plus the admin — used only by the student-facing
+ * screens (Home/Lessons tabs, agenda + lesson-progress writes) so the admin can
+ * permanently preview the real student experience under her own account. Every write
+ * these screens make is scoped to the caller's own user_id (enforced by RLS), so an
+ * admin's preview agenda/lesson progress is a completely separate row set from the
+ * student's real ones — previewing never touches her actual data.
+ */
+export async function requireStudentOrAdmin(): Promise<SessionUser> {
+  const user = await getSessionUser();
+  if (!user) redirect("/login");
+  if (user.role === "restricted_reports") redirect("/reports");
+  return user;
+}
+
 /** Redirects away unless the signed-in user is the admin. */
 export async function requireAdmin(): Promise<SessionUser> {
   const user = await getSessionUser();

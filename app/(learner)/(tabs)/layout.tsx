@@ -1,9 +1,9 @@
 import { TabHeader } from "@/components/layout/tab-header";
 import { BottomTabBar } from "@/components/layout/bottom-tab-bar";
-import { requireStudent } from "@/lib/auth/session";
+import { requireStudentOrAdmin } from "@/lib/auth/session";
 
 export default async function TabsLayout({ children }: { children: React.ReactNode }) {
-  const user = await requireStudent();
+  const user = await requireStudentOrAdmin();
 
   return (
     <div className="flex flex-1 flex-col">

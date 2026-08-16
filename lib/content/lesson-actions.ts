@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { requireStudent } from "@/lib/auth/session";
+import { requireStudentOrAdmin } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 
 /**
@@ -10,7 +10,7 @@ import { createClient } from "@/lib/supabase/server";
  * agenda in sync without a separate manual step.
  */
 export async function completeLesson(lessonId: string): Promise<void> {
-  const user = await requireStudent();
+  const user = await requireStudentOrAdmin();
   const supabase = await createClient();
 
   await supabase.from("lesson_progress").upsert(
