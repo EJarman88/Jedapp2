@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Card, CardLabel } from "@/components/ui/card";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { AgendaCard } from "@/components/home/agenda-card";
-import { requireStudent } from "@/lib/auth/session";
+import { requireStudentOrAdmin } from "@/lib/auth/session";
 import { getTodayAgenda } from "@/lib/agenda/data";
 import { quoteForDate } from "@/content/quotes";
 
@@ -25,7 +25,7 @@ const DAY_NAMES = [
 ];
 
 export default async function HomePage() {
-  const user = await requireStudent();
+  const user = await requireStudentOrAdmin();
   const planStyle = user.planStyle ?? "suggested";
   const agenda = await getTodayAgenda(user.id, planStyle);
   const quote = quoteForDate(new Date());
