@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Card, CardLabel } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { VideoSearch } from "@/components/admin/video-search";
 import { requireAdmin } from "@/lib/auth/session";
 import { listCuratedVideos } from "@/lib/content/curated-videos";
 import { addCuratedVideo, deleteCuratedVideo } from "@/lib/content/video-actions";
@@ -19,13 +20,18 @@ export default async function VideosPage() {
           <h1 className="font-serif text-2xl font-medium">Curated videos</h1>
         </div>
         <p className="mt-1 text-sm text-ink-soft">
-          Manually selected supplementary videos, matched to lessons by skill tag. Never
-          pulled live from YouTube search — add rows here ahead of time.
+          Curated supplementary videos, matched to lessons by skill tag. Jalisa never sees
+          a live YouTube search — you pick what goes here, ahead of time.
         </p>
       </div>
 
       <Card>
-        <CardLabel>Add a video</CardLabel>
+        <CardLabel>Search YouTube</CardLabel>
+        <VideoSearch />
+      </Card>
+
+      <Card>
+        <CardLabel>Add a video manually</CardLabel>
         <form action={addCuratedVideo} className="flex flex-col gap-3">
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="flex flex-col gap-1 text-xs font-medium text-ink-soft">
