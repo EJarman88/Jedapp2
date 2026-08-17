@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -145,6 +146,9 @@ export function PracticeFlow() {
         >
           {phase === "starting" ? "Getting your questions ready…" : "Begin Practice Set"}
         </Button>
+        <Link href="/practice/extended-response" className="text-xs font-medium text-ink-soft underline decoration-dotted">
+          Or, write an Extended Response
+        </Link>
       </main>
     );
   }

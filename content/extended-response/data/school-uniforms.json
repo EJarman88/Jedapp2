@@ -1,0 +1,16 @@
+{
+  "id": "school-uniforms",
+  "title": "Should Public Schools Require Uniforms?",
+  "instructions": "Read the two passages below. In your response, analyze the two positions presented and determine which position is best supported. Use relevant, specific evidence from both passages to support your response.",
+  "suggestedMinutes": 45,
+  "passages": [
+    {
+      "label": "Passage 1: District Should Adopt a Uniform Policy",
+      "text": "Riverdale School District should require uniforms at all of its middle and high schools starting next fall. In the three neighboring districts that adopted uniform policies over the past five years, principals reported a noticeable drop in dress-code-related disciplinary incidents — in one district, dress-code write-ups fell by 60% in the first year alone. Teachers in those districts also report spending less class time addressing clothing disputes, which means more time for instruction. Beyond discipline, uniforms reduce the visible gap between students from wealthier and less wealthy families, since expensive brand-name clothing is no longer a daily point of comparison. Several parents in neighboring districts have said their mornings are less stressful now that picking an outfit is no longer a battle. A modest, one-time cost for a few uniform pieces is a small price for a calmer, more focused school environment."
+    },
+    {
+      "label": "Passage 2: District Should Not Adopt a Uniform Policy",
+      "text": "Requiring uniforms would be the wrong move for Riverdale. Self-expression through clothing is one of the few low-stakes ways teenagers get to practice making choices about their own identity, and removing that entirely sends the message that the district doesn't trust students with even small decisions. Cost is also a real concern: while uniform pieces may seem inexpensive individually, many families would need to buy multiple sets, and for families already stretching a budget, that's a mandatory expense with no opt-out. There's also little solid evidence that uniforms actually improve academic performance — most of the discipline improvements districts report could just as easily come from other policy changes introduced around the same time, like updated dress codes that don't require full uniforms. A revised, clearer dress code — banning specific disruptive items rather than requiring identical clothing — would address the real problems without the cost and loss of choice a uniform mandate brings."
+    }
+  ]
+}

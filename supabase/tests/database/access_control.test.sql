@@ -43,8 +43,8 @@ select is(
 
 -- Jalisa writes an extended response as herself — this table belongs to students now.
 select tests.authenticate_as('jalisa@example.com');
-insert into public.extended_responses (user_id, raw_text)
-values (tests.get_supabase_uid('jalisa@example.com'), 'Raw extended-response text.');
+insert into public.extended_responses (user_id, prompt_id, raw_text)
+values (tests.get_supabase_uid('jalisa@example.com'), 'school-uniforms', 'Raw extended-response text.');
 
 select is(
   (select count(*) from public.extended_responses)::int,
@@ -78,8 +78,8 @@ select is(
 );
 
 select throws_ok(
-  $$ insert into public.extended_responses (user_id, raw_text)
-     values (auth.uid(), 'attempted write') $$,
+  $$ insert into public.extended_responses (user_id, prompt_id, raw_text)
+     values (auth.uid(), 'school-uniforms', 'attempted write') $$,
   'new row violates row-level security policy for table "extended_responses"',
   'restricted role cannot insert into extended_responses'
 );

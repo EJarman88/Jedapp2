@@ -2,10 +2,15 @@ import { Card } from "@/components/ui/card";
 import { requireStudentOrAdmin } from "@/lib/auth/session";
 import { listGedReadyScores } from "@/lib/practice/ged-ready";
 import { GedReadyForm } from "@/components/practice/ged-ready-form";
+import { listExtendedResponses } from "@/lib/extended-response/data";
+import { ResponseHistory } from "@/components/extended-response/response-history";
 
 export default async function ProgressPage() {
   const user = await requireStudentOrAdmin();
-  const scores = await listGedReadyScores(user.id);
+  const [scores, responses] = await Promise.all([
+    listGedReadyScores(user.id),
+    listExtendedResponses(user.id),
+  ]);
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-4">
@@ -19,6 +24,8 @@ export default async function ProgressPage() {
           later phase. GED Ready passing score: 145.
         </p>
       </Card>
+
+      <ResponseHistory responses={responses} />
     </main>
   );
 }
