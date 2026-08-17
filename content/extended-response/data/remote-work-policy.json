@@ -1,0 +1,16 @@
+{
+  "id": "remote-work-policy",
+  "title": "Should Companies Require Employees to Return to the Office Full-Time?",
+  "instructions": "Read the two passages below. In your response, analyze the two positions presented and determine which position is best supported. Use relevant, specific evidence from both passages to support your response.",
+  "suggestedMinutes": 45,
+  "passages": [
+    {
+      "label": "Passage 1: Companies Should Require Full-Time Office Work",
+      "text": "Meridian Logistics should end its remote work policy and bring all employees back to the office five days a week. Since the company shifted to hybrid work three years ago, new-employee onboarding has taken noticeably longer — managers report that new hires need an average of six extra weeks to reach full productivity compared to employees hired before the shift, largely because they have fewer chances to absorb the informal knowledge that comes from sitting near experienced coworkers. Cross-department projects have also slowed; a recent internal survey found that 40% of project leads said scheduling a simple in-person conversation now takes days instead of minutes. Beyond productivity, company culture has measurably weakened: attendance at optional social events has dropped by half, and exit interviews increasingly cite a sense of disconnection from the team as a reason for leaving. Being in the same physical space, every day, rebuilds the kind of spontaneous collaboration and mentorship that made the company strong in the first place."
+    },
+    {
+      "label": "Passage 2: Companies Should Keep Remote and Hybrid Options",
+      "text": "Ending remote work entirely would be a mistake for Meridian Logistics. Employee retention data tells a different story than the office-culture argument suggests: since the hybrid policy began, voluntary turnover has dropped by 22%, and exit surveys show that employees who do leave rarely cite the current policy as a factor — most cite compensation or advancement instead. Commute time matters too; the average Meridian employee saves nearly five hours a week without a daily commute, time that shows up in higher reported job satisfaction scores on the company's own internal surveys. On productivity specifically, output-per-employee metrics have stayed flat or improved slightly since the policy change, which undercuts the claim that in-person presence is what drives results. Rather than eliminating flexibility entirely, the company should address the specific onboarding and collaboration gaps directly — for example, by requiring new hires to work in-office for their first 90 days — instead of imposing a costly, company-wide mandate that the data doesn't clearly support."
+    }
+  ]
+}

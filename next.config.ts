@@ -1,12 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // content/lessons/index.ts reads lesson JSON files from disk at runtime rather than
-  // importing them, so a new lesson needs zero code changes — but that also means
-  // Next's build-time file tracing can't see the dependency on its own; this tells the
-  // lesson route to ship the whole content/lessons/data folder into the server bundle.
+  // content/lessons, content/practice, content/remediation, and
+  // content/extended-response all read their JSON files from disk at runtime rather
+  // than importing them, so adding new content is zero code changes — but that also
+  // means Next's build-time file tracing can't see the dependency on its own; this
+  // tells each dependent route to ship the relevant content/**/data folder into the
+  // server bundle.
   outputFileTracingIncludes: {
     "/lessons/[slug]": ["./content/lessons/data/**/*.json"],
+    "/practice": ["./content/practice/data/**/*.json", "./content/remediation/data/**/*.json"],
+    "/practice/extended-response": ["./content/extended-response/data/**/*.json"],
+    "/review/[token]": ["./content/extended-response/data/**/*.json"],
   },
   // Default 1MB is too small for homework-photo uploads (startHelpSession passes
   // base64 image data straight through as a Server Action argument).

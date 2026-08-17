@@ -1,0 +1,33 @@
+{
+  "skillTag": "data-graphs",
+  "subject": "Science",
+  "title": "Reading What a Graph Actually Shows — Step by Step",
+  "tipLine": "Slower, more deliberate reading of the same kind of graph — no timer.",
+  "vocabTerms": [
+    { "term": "trend", "definition": "the overall direction data moves across the whole graph — not just one point" }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "heading": "Read it in this order",
+      "body": "First, read both axis labels and units before looking at the line — that tells you what's actually being measured. Second, look at the overall shape across the whole graph, not just the start or end. A rising line means the value is increasing; a falling line means it's decreasing; a flat line means it has stopped changing, not that it's zero."
+    },
+    {
+      "type": "content",
+      "heading": "Worked example",
+      "body": "A graph shows a runner's heart rate (y-axis, bpm) over a 30-minute run (x-axis, minutes). The line rises for the first 10 minutes, stays flat for 15 minutes, then falls for the last 5. The flat middle section means heart rate held steady — not that the runner stopped. The falling section at the end means heart rate was decreasing, likely as the run ended."
+    },
+    {
+      "type": "check",
+      "question": "A graph shows a phone's battery percentage (y-axis) over hours of use (x-axis). The line falls steadily for 6 hours, then stays flat for 2 hours. What does the flat part most likely mean?",
+      "options": [
+        "The phone is charging quickly",
+        "Battery percentage has stopped dropping",
+        "The phone has no battery left"
+      ],
+      "correctIndex": 1,
+      "feedbackCorrect": "Right — a flat line means that value has stopped changing, not that it's charging or empty.",
+      "feedbackIncorrect": "Not quite — a flat line just means the value stopped changing at whatever level it was at. It's not rising (charging) or at zero (dead)."
+    }
+  ]
+}
