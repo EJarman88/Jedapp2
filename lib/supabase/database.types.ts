@@ -317,6 +317,31 @@ export interface Database {
         Update: never;
         Relationships: [];
       };
+      real_test_results: {
+        Row: {
+          id: string;
+          user_id: string;
+          subject: GedReadySubject;
+          passed: boolean;
+          paid_out: boolean;
+          date: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          subject: GedReadySubject;
+          passed?: boolean;
+          paid_out?: boolean;
+          date?: string;
+        };
+        Update: {
+          passed?: boolean;
+          paid_out?: boolean;
+          date?: string;
+        };
+        Relationships: [];
+      };
       help_sessions: {
         Row: {
           id: string;
@@ -387,6 +412,14 @@ export interface Database {
       restricted_signup_available: {
         Args: Record<string, never>;
         Returns: boolean;
+      };
+      reportable_extended_responses: {
+        Args: { target_user_id: string };
+        Returns: {
+          id: string;
+          privacy_status: string;
+          submitted_at: string;
+        }[];
       };
     };
     Enums: Record<string, never>;
