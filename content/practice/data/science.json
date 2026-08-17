@@ -1,0 +1,72 @@
+[
+  {
+    "id": "science-variables-plants",
+    "subject": "Science",
+    "skillTag": "identifying-variables",
+    "skillLabel": "Identifying the independent and dependent variables in an experiment",
+    "stimulus": "A student places identical plants under three light conditions: full sun, partial shade, and full shade. After 2 weeks, she measures each plant's height.",
+    "question": "What is the independent variable in this experiment?",
+    "options": ["Plant height", "Number of weeks", "Amount of light", "Type of plant"],
+    "correctIndex": 2,
+    "misconceptionNotes": {
+      "0": "identified the measured outcome (height) rather than what was deliberately changed",
+      "1": "identified a fixed condition of the experiment, not what was deliberately changed",
+      "3": "picked something the experiment held constant (identical plants), not what varied"
+    }
+  },
+  {
+    "id": "science-variables-fertilizer",
+    "subject": "Science",
+    "skillTag": "identifying-variables",
+    "skillLabel": "Identifying the independent and dependent variables in an experiment",
+    "stimulus": "A researcher tests how three different fertilizer amounts affect tomato plant yield, keeping soil type, water, and sunlight the same for every plant.",
+    "question": "What is the dependent variable in this experiment?",
+    "options": ["Fertilizer amount", "Tomato yield", "Soil type", "Amount of water"],
+    "correctIndex": 1,
+    "misconceptionNotes": {
+      "0": "picked the variable that was deliberately changed, not the one being measured",
+      "2": "picked a variable the experiment held constant, not the outcome measured",
+      "3": "picked a variable the experiment held constant, not the outcome measured"
+    }
+  },
+  {
+    "id": "science-graph-temperature-trend",
+    "subject": "Science",
+    "skillTag": "data-graphs",
+    "skillLabel": "Reading trends and values from a graph",
+    "stimulus": "A graph shows a city's average monthly temperature rising steadily from January through July, then falling steadily from July through December.",
+    "question": "What does this graph best show?",
+    "options": [
+      "The exact temperature on a single day in July",
+      "A yearly trend of rising and then falling temperatures",
+      "The type of thermometer used to measure temperature",
+      "How long it took to collect the data"
+    ],
+    "correctIndex": 1,
+    "misconceptionNotes": {
+      "0": "focused on one data point instead of the trend across the whole graph",
+      "2": "picked a detail that isn't something a graph shows",
+      "3": "picked a detail that isn't something a graph shows"
+    }
+  },
+  {
+    "id": "science-graph-speed-flat-line",
+    "subject": "Science",
+    "skillTag": "data-graphs",
+    "skillLabel": "Reading trends and values from a graph",
+    "stimulus": "A graph plots a car's speed (y-axis, mph) against time (x-axis, minutes). The line rises quickly for the first 2 minutes, then stays flat for 5 minutes.",
+    "question": "What does the flat part of the line represent?",
+    "options": [
+      "The car is speeding up",
+      "The car is slowing down",
+      "The car is traveling at a constant speed",
+      "The car has stopped completely"
+    ],
+    "correctIndex": 2,
+    "misconceptionNotes": {
+      "0": "read the flat line as still changing, but a flat line means the value has stopped changing",
+      "1": "read the flat line as still changing, but a flat line means the value has stopped changing",
+      "3": "confused a flat non-zero value with a value of zero — the line hasn't dropped to zero"
+    }
+  }
+]

@@ -1,0 +1,29 @@
+{
+  "skillTag": "linear-equations",
+  "subject": "Math",
+  "title": "Solving for x — Step by Step",
+  "tipLine": "Same skill, smaller steps this time — no timer, no pressure.",
+  "vocabTerms": [
+    { "term": "isolate", "definition": "get the variable completely alone on one side of the equation" }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "heading": "The order that always works",
+      "body": "Undo operations in reverse order of how they were built: first undo any addition or subtraction, then undo multiplication or division, and last, if there are parentheses, distribute them before you do anything else. Whatever you do to one side, do to the other — that keeps the equation balanced."
+    },
+    {
+      "type": "content",
+      "heading": "Worked example",
+      "body": "Solve 3(x - 2) = 12. Step 1 — distribute: 3x - 6 = 12. Step 2 — undo the subtraction: add 6 to both sides, 3x = 18. Step 3 — undo the multiplication: divide both sides by 3, x = 6. Check it: 3(6 - 2) = 3(4) = 12. It matches."
+    },
+    {
+      "type": "check",
+      "question": "Solve for x: 5x - 4 = 21",
+      "options": ["x = 3", "x = 5", "x = 17"],
+      "correctIndex": 1,
+      "feedbackCorrect": "Right — add 4 to both sides to get 5x = 25, then divide by 5 to get x = 5.",
+      "feedbackIncorrect": "Not quite — add 4 to both sides first: 5x = 25. Then divide both sides by 5: x = 5."
+    }
+  ]
+}
