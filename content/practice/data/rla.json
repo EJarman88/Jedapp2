@@ -1,0 +1,102 @@
+[
+  {
+    "id": "rla-claim-detail-parking",
+    "subject": "RLA",
+    "skillTag": "claims-vs-evidence",
+    "skillLabel": "Telling a claim apart from its supporting evidence",
+    "stimulus": "A city planner writes: \"Our downtown parking garages sit half-empty on weekdays while street parking overflows. Converting one garage floor to bike storage would ease congestion without losing much parking capacity.\"",
+    "question": "Which sentence from the passage is the actual claim being argued?",
+    "options": [
+      "Converting one garage floor to bike storage would ease congestion without losing much parking capacity",
+      "Downtown parking garages sit half-empty on weekdays",
+      "Street parking overflows on weekdays",
+      "Congestion is a problem in every downtown"
+    ],
+    "correctIndex": 0,
+    "misconceptionNotes": {
+      "1": "picked a supporting detail (the empty garages) instead of the claim itself",
+      "2": "picked a supporting detail (overflowing street parking) instead of the claim itself",
+      "3": "picked a broad idea the passage never actually states"
+    }
+  },
+  {
+    "id": "rla-claim-detail-bike-lanes",
+    "subject": "RLA",
+    "skillTag": "claims-vs-evidence",
+    "skillLabel": "Telling a claim apart from its supporting evidence",
+    "stimulus": "\"City council should fund the new bike lanes — three neighboring cities saw a 40% drop in traffic accidents after similar projects.\"",
+    "question": "What is the claim in this statement?",
+    "options": [
+      "Traffic accidents happen in cities",
+      "City council should fund the bike lanes",
+      "Three cities are neighbors",
+      "Accidents dropped by 40%"
+    ],
+    "correctIndex": 1,
+    "misconceptionNotes": {
+      "0": "picked a general fact the passage never actually claims",
+      "2": "picked a minor detail from the evidence, not the position being argued",
+      "3": "picked the evidence itself instead of the claim it supports"
+    }
+  },
+  {
+    "id": "rla-claim-detail-shifts",
+    "subject": "RLA",
+    "skillTag": "claims-vs-evidence",
+    "skillLabel": "Telling a claim apart from its supporting evidence",
+    "stimulus": "\"Overnight shift work should be limited to 8 hours — hospitals that capped shifts at 8 hours saw 30% fewer medical errors.\"",
+    "question": "What is the claim?",
+    "options": [
+      "Hospitals track medical errors",
+      "Overnight shifts should be capped at 8 hours",
+      "Errors dropped by 30%",
+      "Medical errors only happen overnight"
+    ],
+    "correctIndex": 1,
+    "misconceptionNotes": {
+      "0": "picked a background fact, not the position being argued",
+      "2": "picked the evidence itself instead of the claim it supports",
+      "3": "picked an idea the passage never actually states"
+    }
+  },
+  {
+    "id": "rla-evidence-relevance-remote-work",
+    "subject": "RLA",
+    "skillTag": "evidence-relevance",
+    "skillLabel": "Picking the detail that actually supports a specific claim",
+    "stimulus": "\"Remote work has cut our office's energy costs by 22% this year. Employees also report shorter commutes and more flexible schedules.\"",
+    "question": "Which detail best supports the idea that remote work has financial benefits for the company?",
+    "options": [
+      "Shorter commutes",
+      "Flexible schedules",
+      "22% drop in energy costs",
+      "Employees report satisfaction"
+    ],
+    "correctIndex": 2,
+    "misconceptionNotes": {
+      "0": "picked a true detail about employees, not one about company finances",
+      "1": "picked a true detail about employees, not one about company finances",
+      "3": "picked a detail that isn't in the passage at all"
+    }
+  },
+  {
+    "id": "rla-evidence-relevance-gardens",
+    "subject": "RLA",
+    "skillTag": "evidence-relevance",
+    "skillLabel": "Picking the detail that actually supports a specific claim",
+    "stimulus": "\"Community gardens should get city funding — the three that opened last year each cut nearby grocery costs by 15%, and volunteers report feeling more connected to their neighbors.\"",
+    "question": "Which detail is the strongest evidence for the specific claim that gardens should get funding?",
+    "options": [
+      "Volunteers feel more connected to neighbors",
+      "Three gardens opened last year",
+      "Nearby grocery costs dropped 15%",
+      "Gardens are located throughout the city"
+    ],
+    "correctIndex": 2,
+    "misconceptionNotes": {
+      "0": "picked a true but softer detail, not the strongest evidence for this specific claim",
+      "1": "picked a neutral fact, not evidence that supports the claim",
+      "3": "picked a detail the passage doesn't actually mention"
+    }
+  }
+]

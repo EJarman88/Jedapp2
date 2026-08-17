@@ -1,0 +1,29 @@
+{
+  "skillTag": "checks-and-balances",
+  "subject": "Social Studies",
+  "title": "Spotting Checks and Balances — Step by Step",
+  "tipLine": "One question tells checks-and-balances apart from the concepts it gets confused with.",
+  "vocabTerms": [
+    { "term": "checks and balances", "definition": "one branch of government limiting or reviewing the power of another branch" }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "heading": "The one question that decides it",
+      "body": "Ask: \"Is one branch of government (executive, legislative, judicial) acting on another branch?\" If yes, it's checks and balances. It's easy to mix this up with judicial review (specifically a court striking down a law) or federalism (federal government vs. state government) — those involve courts or states, not one branch limiting another."
+    },
+    {
+      "type": "content",
+      "heading": "Worked example",
+      "body": "\"The Senate must confirm anyone the President nominates to the Supreme Court.\" Is this one branch acting on another? Yes — the legislative branch (Senate) is checking the executive branch's (President's) power to appoint. That's checks and balances, not judicial review (no court is striking anything down here) and not federalism (no state government is involved)."
+    },
+    {
+      "type": "check",
+      "question": "Congress can impeach and remove a federal judge from office. This describes an example of:",
+      "options": ["Checks and balances", "Judicial review", "Federalism"],
+      "correctIndex": 0,
+      "feedbackCorrect": "Right — the legislative branch is limiting the judicial branch's power. That's one branch checking another.",
+      "feedbackIncorrect": "Close — this is one branch (Congress) acting on another branch (the judiciary), which makes it checks and balances, not judicial review or federalism."
+    }
+  ]
+}

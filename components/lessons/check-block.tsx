@@ -6,7 +6,15 @@ import { cn } from "@/lib/utils";
 
 const LETTERS = ["A", "B", "C", "D"];
 
-export function CheckBlock({ block, onAnswered }: { block: CheckBlockData; onAnswered?: () => void }) {
+export function CheckBlock({
+  block,
+  label = "Quick check",
+  onAnswered,
+}: {
+  block: CheckBlockData;
+  label?: string;
+  onAnswered?: (correct: boolean) => void;
+}) {
   const [selected, setSelected] = useState<number | null>(null);
   const answered = selected !== null;
   const correct = selected === block.correctIndex;
@@ -14,12 +22,12 @@ export function CheckBlock({ block, onAnswered }: { block: CheckBlockData; onAns
   function handleSelect(index: number) {
     if (answered) return;
     setSelected(index);
-    onAnswered?.();
+    onAnswered?.(index === block.correctIndex);
   }
 
   return (
     <div className="rounded-card bg-terracotta-soft p-5">
-      <p className="mb-2.5 text-[11px] font-bold uppercase tracking-wider text-terracotta">Quick check</p>
+      <p className="mb-2.5 text-[11px] font-bold uppercase tracking-wider text-terracotta">{label}</p>
       <p className="mb-3.5 font-serif text-[15px] font-medium leading-snug">{block.question}</p>
       <div className="flex flex-col gap-2">
         {block.options.map((option, index) => {

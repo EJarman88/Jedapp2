@@ -6,6 +6,9 @@ export type PlanStyle = "fixed" | "flexible" | "suggested";
 export type AgendaItemType = "lesson" | "practice" | "other";
 export type AgendaStatus = "pending" | "done";
 export type LessonProgressStatus = "not_started" | "in_progress" | "completed";
+export type GedReadySubject = "RLA" | "Math" | "Science" | "Social Studies";
+export type ConfidenceContextType = "practice_session" | "extended_response";
+export type ConfidencePhase = "pre" | "post";
 
 export interface Database {
   public: {
@@ -174,6 +177,91 @@ export interface Database {
         Update: {
           raw_text?: string;
         };
+        Relationships: [];
+      };
+      practice_sessions: {
+        Row: {
+          id: string;
+          user_id: string;
+          question_ids: string[];
+          time_limit_seconds: number;
+          score: number | null;
+          started_at: string;
+          completed_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          question_ids: string[];
+          time_limit_seconds: number;
+        };
+        Update: {
+          score?: number;
+          completed_at?: string;
+        };
+        Relationships: [];
+      };
+      practice_answers: {
+        Row: {
+          id: string;
+          session_id: string;
+          question_id: string;
+          selected_index: number | null;
+          is_correct: boolean;
+          time_spent_seconds: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          session_id: string;
+          question_id: string;
+          selected_index?: number | null;
+          is_correct?: boolean;
+          time_spent_seconds?: number;
+        };
+        Update: never;
+        Relationships: [];
+      };
+      ged_ready_scores: {
+        Row: {
+          id: string;
+          user_id: string;
+          subject: GedReadySubject;
+          score: number;
+          attempt_number: number;
+          taken_at: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          subject: GedReadySubject;
+          score: number;
+          attempt_number?: number;
+          taken_at?: string;
+        };
+        Update: never;
+        Relationships: [];
+      };
+      confidence_checkins: {
+        Row: {
+          id: string;
+          user_id: string;
+          context_type: ConfidenceContextType;
+          context_id: string;
+          rating: number;
+          phase: ConfidencePhase;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          context_type: ConfidenceContextType;
+          context_id: string;
+          rating: number;
+          phase: ConfidencePhase;
+        };
+        Update: never;
         Relationships: [];
       };
     };

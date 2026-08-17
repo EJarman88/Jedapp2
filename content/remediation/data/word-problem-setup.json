@@ -1,0 +1,29 @@
+{
+  "skillTag": "word-problem-setup",
+  "subject": "Math",
+  "title": "Turning Words Into an Equation — Step by Step",
+  "tipLine": "The math is usually easy once the equation is set up right — this is about the setup.",
+  "vocabTerms": [
+    { "term": "quantity", "definition": "an amount described in the problem — the thing you're solving for or tracking" }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "heading": "A three-step read",
+      "body": "First, find what's unknown and give it a letter. Second, find every quantity that's described in relation to that unknown ('40 more than,' 'twice as many,' 'increased by x') and write each one as an expression. Third, find the sentence that tells you two things are equal — that's your equation."
+    },
+    {
+      "type": "content",
+      "heading": "Worked example",
+      "body": "\"A parking lot has 30 more compact spaces than regular spaces. Together there are 210 spaces.\" Let r = regular spaces. Compact spaces = r + 30 (the 'more than' relationship). The 'together' sentence means they add up to the total: r + (r + 30) = 210. That's the equation — no need to solve it yet, just set it up correctly first."
+    },
+    {
+      "type": "check",
+      "question": "\"A bakery sells muffins for $3 each and cookies for $2 each. On Tuesday they sold 15 more cookies than muffins and made $190 total.\" If m = muffins sold, which equation matches this?",
+      "options": ["3m + 2(m + 15) = 190", "3m + 2m = 190", "3(m + 15) + 2m = 190"],
+      "correctIndex": 0,
+      "feedbackCorrect": "Right — cookies (m + 15) get the $2 price, muffins (m) get the $3 price, and both add up to $190.",
+      "feedbackIncorrect": "Close — the '+15' belongs on cookies, not muffins, since cookies are the ones described as 15 more."
+    }
+  ]
+}

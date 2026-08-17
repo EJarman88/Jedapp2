@@ -1,0 +1,72 @@
+[
+  {
+    "id": "ss-checks-veto-override",
+    "subject": "Social Studies",
+    "skillTag": "checks-and-balances",
+    "skillLabel": "Recognizing checks-and-balances in government structure",
+    "stimulus": "Under the U.S. Constitution, if the President vetoes a bill, Congress can still make it law by a two-thirds vote in both the House and Senate.",
+    "question": "This describes an example of:",
+    "options": ["Judicial review", "Checks and balances", "States' rights", "Executive privilege"],
+    "correctIndex": 1,
+    "misconceptionNotes": {
+      "0": "mixed up this branch-vs-branch power with a court-related concept",
+      "2": "confused a federal-vs-state concept with a branch-vs-branch one",
+      "3": "picked a concept about the President's authority, not Congress's check on it"
+    }
+  },
+  {
+    "id": "ss-checks-treaty-approval",
+    "subject": "Social Studies",
+    "skillTag": "checks-and-balances",
+    "skillLabel": "Recognizing checks-and-balances in government structure",
+    "stimulus": "The Senate must approve any treaty the President negotiates with a foreign country before it takes effect.",
+    "question": "This describes an example of:",
+    "options": ["Checks and balances", "Judicial review", "Federalism", "Popular sovereignty"],
+    "correctIndex": 0,
+    "misconceptionNotes": {
+      "1": "mixed up this branch-vs-branch power with a court-related concept",
+      "2": "confused a federal-vs-state concept with a branch-vs-branch one",
+      "3": "picked a concept about voters' authority, not one branch checking another"
+    }
+  },
+  {
+    "id": "ss-cause-effect-railroad",
+    "subject": "Social Studies",
+    "skillTag": "cause-and-effect-history",
+    "skillLabel": "Connecting a historical cause to its effect",
+    "stimulus": "After the transcontinental railroad was completed in 1869, the time and cost to ship goods across the country dropped dramatically, and new towns grew up along the rail lines.",
+    "question": "According to the passage, what was a direct effect of completing the railroad?",
+    "options": [
+      "The railroad was built using steel",
+      "New towns grew up along the rail lines",
+      "The country expanded westward before 1869",
+      "Goods had never been shipped before"
+    ],
+    "correctIndex": 1,
+    "misconceptionNotes": {
+      "0": "picked a detail about how the railroad was built, not an effect of it",
+      "2": "picked an event described as happening before the cause, not after it",
+      "3": "picked a conclusion the passage doesn't support"
+    }
+  },
+  {
+    "id": "ss-cause-effect-fdic",
+    "subject": "Social Studies",
+    "skillTag": "cause-and-effect-history",
+    "skillLabel": "Connecting a historical cause to its effect",
+    "stimulus": "During the Great Depression, widespread bank failures wiped out many families' savings, which led Congress to create the FDIC to insure bank deposits.",
+    "question": "What was the cause that led Congress to create the FDIC?",
+    "options": [
+      "Families wanted a new government agency",
+      "Widespread bank failures wiped out savings",
+      "The Great Depression ended",
+      "Banks asked Congress for insurance"
+    ],
+    "correctIndex": 1,
+    "misconceptionNotes": {
+      "0": "picked a plausible-sounding motive the passage doesn't state",
+      "2": "picked an event that isn't described as happening at this point in the passage",
+      "3": "picked a detail the passage doesn't mention"
+    }
+  }
+]
