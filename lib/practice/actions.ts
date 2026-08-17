@@ -9,9 +9,21 @@ import { getRemediationLessonBySkillTag } from "@/content/remediation";
 import type { RemediationLesson } from "@/content/remediation/types";
 import { computeDiagnosis, type AnsweredQuestion, type DiagnosisResult } from "@/lib/practice/diagnosis";
 import type { ConfidenceContextType, ConfidencePhase } from "@/lib/supabase/database.types";
+import { logEngagementEvent } from "@/lib/engagement/log";
 
 const QUESTIONS_PER_SET = 5;
 const SECONDS_PER_QUESTION = 60;
+// A set finished in under this share of the student's own recent median duration for
+// this task type gets a soft "fast_completion" flag — metadata only, see CLAUDE.md
+// rule #4. Needs at least MIN_PRIOR_SESSIONS completed sets to establish a baseline.
+const FAST_COMPLETION_THRESHOLD = 0.2;
+const MIN_PRIOR_SESSIONS_FOR_BASELINE = 3;
+
+function median(values: number[]): number {
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid];
+}
 
 export interface StartPracticeSetResult {
   sessionId: string;
@@ -39,6 +51,11 @@ export async function startPracticeSet(): Promise<StartPracticeSetResult> {
 
   if (error || !data) throw new Error(error?.message ?? "Could not start a practice set.");
 
+  await logEngagementEvent(supabase, user.id, "session_started", {
+    contextType: "practice_session",
+    contextId: data.id,
+  });
+
   return { sessionId: data.id, questions, timeLimitSeconds };
 }
 
@@ -60,7 +77,7 @@ export async function submitPracticeSet(
 
   const { data: session } = await supabase
     .from("practice_sessions")
-    .select("id, user_id, question_ids")
+    .select("id, user_id, question_ids, started_at")
     .eq("id", sessionId)
     .single();
 
@@ -89,9 +106,10 @@ export async function submitPracticeSet(
     }),
   );
 
+  const completedAt = new Date();
   await supabase
     .from("practice_sessions")
-    .update({ score, completed_at: new Date().toISOString() })
+    .update({ score, completed_at: completedAt.toISOString() })
     .eq("id", sessionId);
 
   await supabase
@@ -100,6 +118,43 @@ export async function submitPracticeSet(
     .eq("user_id", user.id)
     .eq("item_type", "practice")
     .eq("status", "pending");
+
+  await logEngagementEvent(supabase, user.id, "session_completed", {
+    contextType: "practice_session",
+    contextId: sessionId,
+  });
+
+  const durationSeconds = (completedAt.getTime() - new Date(session.started_at).getTime()) / 1000;
+  const { data: priorSessions } = await supabase
+    .from("practice_sessions")
+    .select("started_at, completed_at")
+    .eq("user_id", user.id)
+    .not("completed_at", "is", null)
+    .neq("id", sessionId)
+    .order("completed_at", { ascending: false })
+    .limit(5);
+
+  const priorDurations = (priorSessions ?? []).map(
+    (s) => (new Date(s.completed_at!).getTime() - new Date(s.started_at).getTime()) / 1000,
+  );
+  if (priorDurations.length >= MIN_PRIOR_SESSIONS_FOR_BASELINE) {
+    const medianSeconds = median(priorDurations);
+    if (durationSeconds < medianSeconds * FAST_COMPLETION_THRESHOLD) {
+      await logEngagementEvent(supabase, user.id, "fast_completion", {
+        contextType: "practice_session",
+        contextId: sessionId,
+        metadata: { durationSeconds: Math.round(durationSeconds), medianSeconds: Math.round(medianSeconds) },
+      });
+    }
+  }
+
+  if (answers.length >= 3 && answers.every((a) => a.selectedIndex === answers[0].selectedIndex)) {
+    await logEngagementEvent(supabase, user.id, "answer_pattern_flag", {
+      contextType: "practice_session",
+      contextId: sessionId,
+      metadata: { pattern: "straight_lining" },
+    });
+  }
 
   revalidatePath("/home");
 

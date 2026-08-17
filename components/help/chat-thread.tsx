@@ -29,6 +29,7 @@ export function ChatThread({
     initialMessages.map((m) => ({ role: m.role, content: m.content })),
   );
   const [input, setInput] = useState("");
+  const [wasPasted, setWasPasted] = useState(false);
   const [sending, setSending] = useState(false);
   const [showScratchpad, setShowScratchpad] = useState(false);
   const [checkingWork, setCheckingWork] = useState(false);
@@ -37,11 +38,13 @@ export function ChatThread({
   async function handleSend() {
     const text = input.trim();
     if (!text || sending) return;
+    const pasted = wasPasted;
     setInput("");
+    setWasPasted(false);
     setMessages((prev) => [...prev, { role: "user", content: text }]);
     setSending(true);
     try {
-      const reply = await sendHelpMessage(problem.id, subject, problem.extractedText, text);
+      const reply = await sendHelpMessage(problem.id, subject, problem.extractedText, text, pasted);
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
     } finally {
       setSending(false);
@@ -126,6 +129,7 @@ export function ChatThread({
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onPaste={() => setWasPasted(true)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
           placeholder="Type your answer or thinking…"
           className="flex-1 rounded-xl border border-line bg-card px-3.5 py-2.5 text-sm"

@@ -14,6 +14,14 @@ export type Trait = "argument_analysis" | "organization" | "language_command" | 
 export type GedReadySubject = "RLA" | "Math" | "Science" | "Social Studies";
 export type ConfidenceContextType = "practice_session" | "extended_response";
 export type ConfidencePhase = "pre" | "post";
+export type EngagementEventType =
+  | "session_started"
+  | "session_completed"
+  | "item_avoided"
+  | "hint_skipped"
+  | "fast_completion"
+  | "paste_detected"
+  | "answer_pattern_flag";
 
 export interface Database {
   public: {
@@ -58,6 +66,7 @@ export interface Database {
           scheduled_date: string;
           status: AgendaStatus;
           carried_over_from: string | null;
+          carryover_count: number;
           content_slug: string | null;
           order_index: number;
           created_at: string;
@@ -78,6 +87,7 @@ export interface Database {
           status?: AgendaStatus;
           scheduled_date?: string;
           carried_over_from?: string | null;
+          carryover_count?: number;
         };
         Relationships: [];
       };
@@ -165,6 +175,27 @@ export interface Database {
         Update: {
           enabled?: boolean;
         };
+        Relationships: [];
+      };
+      engagement_events: {
+        Row: {
+          id: string;
+          user_id: string;
+          event_type: EngagementEventType;
+          context_type: string | null;
+          context_id: string | null;
+          metadata: Record<string, unknown>;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          event_type: EngagementEventType;
+          context_type?: string | null;
+          context_id?: string | null;
+          metadata?: Record<string, unknown>;
+        };
+        Update: Record<string, never>;
         Relationships: [];
       };
       extended_responses: {
@@ -419,6 +450,14 @@ export interface Database {
           id: string;
           privacy_status: string;
           submitted_at: string;
+        }[];
+      };
+      household_members_for_student: {
+        Args: Record<string, never>;
+        Returns: {
+          id: string;
+          role: UserRole;
+          display_name: string;
         }[];
       };
     };

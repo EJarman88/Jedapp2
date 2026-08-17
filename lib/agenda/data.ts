@@ -2,6 +2,13 @@ import "server-only";
 
 import { createClient } from "@/lib/supabase/server";
 import type { AgendaItemType, AgendaStatus, PlanStyle } from "@/lib/supabase/database.types";
+import { logEngagementEvent } from "@/lib/engagement/log";
+
+// An item carried over this many times without being started gets a soft
+// "item_avoided" flag for the weekly digest — fired once, at the moment it crosses
+// the threshold, not recomputed from scratch every day (CLAUDE.md rule #4: behavior
+// only, never a guess at why).
+const AVOIDANCE_CARRYOVER_THRESHOLD = 3;
 
 export interface AgendaItemView {
   id: string;
@@ -61,19 +68,29 @@ export async function getTodayAgenda(userId: string, planStyle: PlanStyle): Prom
 
   const { data: stale } = await supabase
     .from("agenda_items")
-    .select("id, scheduled_date, carried_over_from")
+    .select("id, scheduled_date, carried_over_from, carryover_count, subject")
     .eq("user_id", userId)
     .eq("status", "pending")
     .lt("scheduled_date", today);
 
   for (const item of stale ?? []) {
+    const nextCarryoverCount = item.carryover_count + 1;
     await supabase
       .from("agenda_items")
       .update({
         scheduled_date: today,
         carried_over_from: item.carried_over_from ?? item.scheduled_date,
+        carryover_count: nextCarryoverCount,
       })
       .eq("id", item.id);
+
+    if (nextCarryoverCount === AVOIDANCE_CARRYOVER_THRESHOLD) {
+      await logEngagementEvent(supabase, userId, "item_avoided", {
+        contextType: "agenda_item",
+        contextId: item.id,
+        metadata: { subject: item.subject },
+      });
+    }
   }
 
   const { count } = await supabase
