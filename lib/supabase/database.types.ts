@@ -6,6 +6,9 @@ export type PlanStyle = "fixed" | "flexible" | "suggested";
 export type AgendaItemType = "lesson" | "practice" | "other";
 export type AgendaStatus = "pending" | "done";
 export type LessonProgressStatus = "not_started" | "in_progress" | "completed";
+export type HelpSubject = "RLA" | "Math" | "Science" | "Social Studies";
+export type HelpSessionStatus = "active" | "completed";
+export type HelpMessageRole = "user" | "assistant";
 export type PrivacyStatus = "pending" | "deleted" | "private" | "shared";
 export type Trait = "argument_analysis" | "organization" | "language_command" | "grammar_conventions";
 export type GedReadySubject = "RLA" | "Math" | "Science" | "Social Studies";
@@ -310,6 +313,66 @@ export interface Database {
           context_id: string;
           rating: number;
           phase: ConfidencePhase;
+        };
+        Update: never;
+        Relationships: [];
+      };
+      help_sessions: {
+        Row: {
+          id: string;
+          user_id: string;
+          subject: HelpSubject;
+          status: HelpSessionStatus;
+          started_at: string;
+          completed_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          subject: HelpSubject;
+          status?: HelpSessionStatus;
+        };
+        Update: {
+          status?: HelpSessionStatus;
+          completed_at?: string;
+        };
+        Relationships: [];
+      };
+      help_problems: {
+        Row: {
+          id: string;
+          session_id: string;
+          source_image_path: string | null;
+          extracted_text: string;
+          order_index: number;
+          solved: boolean;
+        };
+        Insert: {
+          id?: string;
+          session_id: string;
+          source_image_path?: string | null;
+          extracted_text: string;
+          order_index?: number;
+          solved?: boolean;
+        };
+        Update: {
+          solved?: boolean;
+        };
+        Relationships: [];
+      };
+      help_messages: {
+        Row: {
+          id: string;
+          problem_id: string;
+          role: HelpMessageRole;
+          content: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          problem_id: string;
+          role: HelpMessageRole;
+          content: string;
         };
         Update: never;
         Relationships: [];
