@@ -1,0 +1,30 @@
+{
+  "skillTag": "cause-and-effect-history",
+  "subject": "Social Studies",
+  "title": "Finding the Real Cause and the Real Effect — Step by Step",
+  "tipLine": "Order in the passage isn't always the order events happened — this is about tracking that.",
+  "vocabTerms": [
+    { "term": "cause", "definition": "the event or condition that makes something else happen" },
+    { "term": "effect", "definition": "what happens as a result of the cause" }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "heading": "Ask which one depends on the other",
+      "body": "The cause can exist without the effect, but the effect can't happen without the cause. When a passage says one thing \"led to,\" \"resulted in,\" or \"caused\" another, find the event on each side of that phrase — the trigger is the cause, what follows from it is the effect. Watch out for details that are true but describe neither — background information isn't automatically a cause or an effect."
+    },
+    {
+      "type": "content",
+      "heading": "Worked example",
+      "body": "\"After a severe drought destroyed crops across the region, thousands of farming families migrated to cities looking for work.\" What's the cause? The drought — it's the trigger. What's the effect? Families migrating to cities — that's what happened as a result. Neither depends on \"the region\" or \"crops\" alone; those are just context inside the cause."
+    },
+    {
+      "type": "check",
+      "question": "\"When the price of oil spiked in the 1970s, many Americans switched to smaller, more fuel-efficient cars.\" What was the effect described here?",
+      "options": ["Oil prices spiked", "Americans switched to fuel-efficient cars", "The 1970s happened"],
+      "correctIndex": 1,
+      "feedbackCorrect": "Right — the price spike is the cause; switching to fuel-efficient cars is what resulted from it.",
+      "feedbackIncorrect": "Close — that one is the cause (or just a time period), not the result. The effect is what happened because of the price spike: the switch to fuel-efficient cars."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "skillTag": "evidence-relevance",
+  "subject": "RLA",
+  "title": "Finding the Detail That Actually Fits — Step by Step",
+  "tipLine": "Not every true detail supports the claim you're asked about — this narrows it down.",
+  "vocabTerms": [
+    { "term": "relevant", "definition": "actually connected to the specific claim being asked about — not just true" }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "heading": "Try this way of sorting it",
+      "body": "Every option might be a true detail from the passage, but only one is relevant to the exact claim in the question. First, restate the claim in your own words. Then check each option against it: does this detail specifically support that claim, or is it just true but off-topic?"
+    },
+    {
+      "type": "content",
+      "heading": "Worked example",
+      "body": "\"Switching to LED streetlights saved the city $40,000 last year. The new lights are also brighter and reduce nighttime accidents.\" Question: which detail supports the claim that the switch had a financial benefit? \"Brighter lights\" and \"fewer accidents\" are both true — but only \"$40,000 saved\" is about money. That's the relevant one."
+    },
+    {
+      "type": "check",
+      "question": "\"The new recycling program cut landfill waste by 18% this year. Residents also say the color-coded bins are easier to use.\" Which detail supports the claim that the program reduced waste?",
+      "options": ["Bins are color-coded", "Landfill waste dropped 18%", "Residents like the bins"],
+      "correctIndex": 1,
+      "feedbackCorrect": "Right — that's the detail directly tied to the claim about waste, not just a true detail about the bins.",
+      "feedbackIncorrect": "Close — that detail is true, but it's about ease of use, not about waste going down. Look for the one tied directly to the claim."
+    }
+  ]
+}

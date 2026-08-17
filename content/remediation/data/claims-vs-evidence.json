@@ -1,0 +1,30 @@
+{
+  "skillTag": "claims-vs-evidence",
+  "subject": "RLA",
+  "title": "Claims vs. Evidence — Step by Step",
+  "tipLine": "Same skill, broken into smaller steps this time — no timer, no pressure.",
+  "vocabTerms": [
+    { "term": "claim", "definition": "the belief or position a writer wants you to accept" },
+    { "term": "evidence", "definition": "the fact, example, or data offered to prove the claim" }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "heading": "Try this way of sorting it",
+      "body": "Ask two questions, in order. First: \"What does this sentence want me to believe?\" — that's a candidate claim. Second: \"Does this sentence prove something, or does it get proven?\" — if it proves something, it's evidence. The claim is always the position; the evidence is always what's offered to back that position up."
+    },
+    {
+      "type": "content",
+      "heading": "Worked example",
+      "body": "\"Community gardens should get city funding — the three that opened last year each cut nearby grocery costs by 15%.\" Claim: gardens should get funding (this is the belief being pushed). Evidence: the 15% cost drop (this is what proves it). Notice the claim is an opinion someone could disagree with; the evidence is a fact that argues for it."
+    },
+    {
+      "type": "check",
+      "question": "\"Public libraries should extend evening hours — three branches that tried it saw a 25% jump in visits.\" What's the claim?",
+      "options": ["Visits jumped 25%", "Libraries should extend evening hours", "Three branches tried it"],
+      "correctIndex": 1,
+      "feedbackCorrect": "That's it — libraries extending hours is the belief being argued; the visit jump is what backs it up.",
+      "feedbackIncorrect": "Close — that one's evidence again. Try the two-question test: does it prove something, or get proven?"
+    }
+  ]
+}

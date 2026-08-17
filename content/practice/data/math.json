@@ -1,0 +1,74 @@
+[
+  {
+    "id": "math-linear-eq-basic",
+    "subject": "Math",
+    "skillTag": "linear-equations",
+    "skillLabel": "Solving a linear equation for the unknown",
+    "question": "Solve for x: 4x - 7 = 17",
+    "options": ["x = 2", "x = 6", "x = 10", "x = 24"],
+    "correctIndex": 1,
+    "misconceptionNotes": {
+      "0": "subtracted instead of added 7 to both sides first",
+      "2": "added 7 to 17 correctly but then subtracted instead of dividing by 4",
+      "3": "added 7 to both sides but forgot to divide by 4 at the end"
+    },
+    "calculatorAvailable": true
+  },
+  {
+    "id": "math-linear-eq-distribute",
+    "subject": "Math",
+    "skillTag": "linear-equations",
+    "skillLabel": "Solving a linear equation for the unknown",
+    "question": "Solve for x: 2(x + 3) = 16",
+    "options": ["x = 5", "x = 8", "x = 10", "x = 13"],
+    "correctIndex": 0,
+    "misconceptionNotes": {
+      "1": "divided 16 by 2 correctly but forgot to subtract the 3 afterward",
+      "2": "distributed the 2 across the parentheses incorrectly before solving",
+      "3": "subtracted 3 before dividing by 2, instead of after"
+    },
+    "calculatorAvailable": true
+  },
+  {
+    "id": "math-word-problem-garden",
+    "subject": "Math",
+    "skillTag": "word-problem-setup",
+    "skillLabel": "Translating a word problem into an equation",
+    "stimulus": "A rectangular garden is 12 feet long and 8 feet wide. The gardener wants to increase the length by x feet, making the new area 32 square feet larger than the original.",
+    "question": "Which equation represents this situation?",
+    "options": [
+      "8(12 + x) = 96 + 32",
+      "12(8 + x) = 96 + 32",
+      "(12 + x)(8 + x) = 32",
+      "8x = 32"
+    ],
+    "correctIndex": 0,
+    "misconceptionNotes": {
+      "1": "applied x to the wrong side (length instead of width) of the rectangle",
+      "2": "increased both dimensions by x instead of just the length",
+      "3": "skipped setting up the total new area and just used the increase alone"
+    },
+    "calculatorAvailable": true
+  },
+  {
+    "id": "math-word-problem-tickets",
+    "subject": "Math",
+    "skillTag": "word-problem-setup",
+    "skillLabel": "Translating a word problem into an equation",
+    "stimulus": "A movie theater charges $12 per adult ticket and $8 per child ticket. On Saturday, the theater sold 40 more child tickets than adult tickets and brought in $1,360 total.",
+    "question": "If a = the number of adult tickets sold, which equation represents this situation?",
+    "options": [
+      "12a + 8(a + 40) = 1360",
+      "12a + 8a = 1360",
+      "12(a + 40) + 8a = 1360",
+      "12a - 8(a + 40) = 1360"
+    ],
+    "correctIndex": 0,
+    "misconceptionNotes": {
+      "1": "left out the 40 extra child tickets entirely",
+      "2": "swapped which ticket type got the +40 adjustment",
+      "3": "used subtraction instead of addition for the total revenue"
+    },
+    "calculatorAvailable": true
+  }
+]

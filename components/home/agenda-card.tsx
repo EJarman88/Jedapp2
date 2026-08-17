@@ -32,7 +32,8 @@ export function AgendaCard({ items: initialItems }: { items: AgendaItemView[] })
           <p className="text-sm text-ink-soft">Nothing on the agenda today.</p>
         ) : (
           items.map((item, index) => {
-            const navigable = item.itemType === "lesson" && item.contentSlug && !item.locked;
+            const navigable =
+              !item.locked && ((item.itemType === "lesson" && item.contentSlug) || item.itemType === "practice");
 
             const label = (
               <span className="flex-1">
@@ -74,7 +75,10 @@ export function AgendaCard({ items: initialItems }: { items: AgendaItemView[] })
                   {item.status === "done" ? "✓" : ""}
                 </button>
                 {navigable ? (
-                  <Link href={`/lessons/${item.contentSlug}`} className="flex flex-1 items-center gap-3">
+                  <Link
+                    href={item.itemType === "practice" ? "/practice" : `/lessons/${item.contentSlug}`}
+                    className="flex flex-1 items-center gap-3"
+                  >
                     {label}
                     <span className="text-ink-soft">›</span>
                   </Link>

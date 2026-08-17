@@ -1,0 +1,30 @@
+{
+  "skillTag": "identifying-variables",
+  "subject": "Science",
+  "title": "Independent vs. Dependent Variables — Step by Step",
+  "tipLine": "One question sorts these out almost every time — this walks through it.",
+  "vocabTerms": [
+    { "term": "independent variable", "definition": "the thing a researcher deliberately changes on purpose" },
+    { "term": "dependent variable", "definition": "the outcome that's measured, which may change because of the independent variable" }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "heading": "One question decides it",
+      "body": "Ask: \"What did the researcher deliberately change on purpose?\" That's the independent variable. Then ask: \"What did they measure to see if it made a difference?\" That's the dependent variable. Anything the researcher kept the same on purpose (soil type, room temperature, plant type) isn't a variable at all — it's a controlled condition."
+    },
+    {
+      "type": "content",
+      "heading": "Worked example",
+      "body": "\"A teacher gives three groups of students different amounts of study time (20, 40, or 60 minutes) before the same quiz, then compares quiz scores.\" What was deliberately changed? Study time — that's independent. What was measured as the outcome? Quiz scores — that's dependent."
+    },
+    {
+      "type": "check",
+      "question": "A researcher waters identical bean plants with 3 different amounts of water each week, then measures how tall each plant grows after a month. What is the independent variable?",
+      "options": ["Plant height", "Amount of water", "Type of bean plant"],
+      "correctIndex": 1,
+      "feedbackCorrect": "Right — the amount of water is what the researcher deliberately changed on purpose.",
+      "feedbackIncorrect": "Close — that one is either the measured outcome or something held constant. The independent variable is what was deliberately changed: the water amount."
+    }
+  ]
+}
