@@ -6,6 +6,8 @@ export type PlanStyle = "fixed" | "flexible" | "suggested";
 export type AgendaItemType = "lesson" | "practice" | "other";
 export type AgendaStatus = "pending" | "done";
 export type LessonProgressStatus = "not_started" | "in_progress" | "completed";
+export type PrivacyStatus = "pending" | "deleted" | "private" | "shared";
+export type Trait = "argument_analysis" | "organization" | "language_command" | "grammar_conventions";
 
 export interface Database {
   public: {
@@ -163,16 +165,64 @@ export interface Database {
         Row: {
           id: string;
           user_id: string;
-          raw_text: string;
-          created_at: string;
+          prompt_id: string;
+          raw_text: string | null;
+          submitted_at: string;
+          privacy_status: PrivacyStatus;
+          privacy_decided_at: string | null;
+          auto_delete_at: string;
         };
         Insert: {
           id?: string;
           user_id: string;
+          prompt_id: string;
           raw_text: string;
+          auto_delete_at?: string;
         };
         Update: {
-          raw_text?: string;
+          raw_text?: string | null;
+          privacy_status?: PrivacyStatus;
+          privacy_decided_at?: string;
+        };
+        Relationships: [];
+      };
+      trait_scores: {
+        Row: {
+          id: string;
+          response_id: string;
+          trait: Trait;
+          score: number;
+          ai_notes_md: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          response_id: string;
+          trait: Trait;
+          score: number;
+          ai_notes_md: string;
+        };
+        Update: never;
+        Relationships: [];
+      };
+      reviewer_links: {
+        Row: {
+          id: string;
+          response_id: string;
+          token: string;
+          reviewer_label: string;
+          created_at: string;
+          revoked_at: string | null;
+          viewed_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          response_id: string;
+          reviewer_label: string;
+        };
+        Update: {
+          revoked_at?: string;
+          viewed_at?: string;
         };
         Relationships: [];
       };

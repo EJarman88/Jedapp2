@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export default function PracticePage() {
   return (
@@ -8,6 +10,15 @@ export default function PracticePage() {
         <p className="text-sm leading-relaxed text-ink-soft">
           Coming soon — timed practice sets, diagnostics, and remediation.
         </p>
+      </Card>
+      <Card>
+        <p className="mb-3 text-sm leading-relaxed text-ink-soft">
+          Ready to practice a full written response? RLA extended response prompts, scored with warm,
+          specific feedback.
+        </p>
+        <Link href="/practice/extended-response">
+          <Button className="w-full">Write an Extended Response</Button>
+        </Link>
       </Card>
     </main>
   );
