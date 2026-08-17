@@ -1,9 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { getReadAloudPrefs } from "@/lib/read-aloud/prefs";
 
 function speechSupported(): boolean {
   return typeof window !== "undefined" && "speechSynthesis" in window;
+}
+
+export function applyReadAloudPrefs(utterance: SpeechSynthesisUtterance): void {
+  const prefs = getReadAloudPrefs();
+  utterance.pitch = prefs.pitch;
+  utterance.rate = prefs.rate;
+  if (prefs.voiceURI) {
+    const voice = window.speechSynthesis.getVoices().find((v) => v.voiceURI === prefs.voiceURI);
+    if (voice) utterance.voice = voice;
+  }
 }
 
 export function ReadAloudButton({ text }: { text: string }) {
@@ -25,6 +36,7 @@ export function ReadAloudButton({ text }: { text: string }) {
     }
 
     const utterance = new SpeechSynthesisUtterance(text);
+    applyReadAloudPrefs(utterance);
     utterance.onend = () => setSpeaking(false);
     utterance.onerror = () => setSpeaking(false);
     window.speechSynthesis.cancel();

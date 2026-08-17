@@ -10,6 +10,14 @@ import { getSocraticReply, type SocraticMessage } from "@/lib/claude/socratic-re
 import { getTalkToClaudeReply, type TalkToClaudeMessage } from "@/lib/claude/talk-to-claude";
 import { uploadHelpPhoto } from "./storage";
 import { countTodaysHelpSessions, DAILY_SESSION_CAP, getProblemMessages } from "./data";
+import { logEngagementEvent } from "@/lib/engagement/log";
+
+// A pasted chunk shorter than this is just a word or two — not worth flagging.
+const PASTE_LENGTH_THRESHOLD = 30;
+// Simple phrasing match for "just give me the answer" style requests — the Socratic
+// tutor (Phase 7) is built to never answer directly regardless, so this is a soft
+// behavioral note, not a gate on anything.
+const DIRECT_ANSWER_REQUEST_PATTERN = /\b(just tell me|give me the answer|what'?s the answer|skip to the answer)\b/i;
 
 export interface StartHelpSessionResult {
   sessionId?: string;
@@ -71,12 +79,31 @@ export async function startHelpSession(
   return { sessionId: session.id };
 }
 
-export async function sendHelpMessage(problemId: string, subject: string, problemText: string, userText: string): Promise<string> {
-  await requireStudentOrAdmin();
+export async function sendHelpMessage(
+  problemId: string,
+  subject: string,
+  problemText: string,
+  userText: string,
+  wasPasted = false,
+): Promise<string> {
+  const user = await requireStudentOrAdmin();
   const supabase = await createClient();
 
   const priorMessages = await getProblemMessages(problemId);
   await supabase.from("help_messages").insert({ problem_id: problemId, role: "user", content: userText });
+
+  if (wasPasted && userText.trim().length > PASTE_LENGTH_THRESHOLD) {
+    await logEngagementEvent(supabase, user.id, "paste_detected", {
+      contextType: "help_problem",
+      contextId: problemId,
+    });
+  }
+  if (DIRECT_ANSWER_REQUEST_PATTERN.test(userText)) {
+    await logEngagementEvent(supabase, user.id, "hint_skipped", {
+      contextType: "help_problem",
+      contextId: problemId,
+    });
+  }
 
   const history: SocraticMessage[] = [
     ...priorMessages.map((m) => ({ role: m.role, content: m.content })),
