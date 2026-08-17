@@ -107,3 +107,53 @@ export async function requireRestrictedReports(): Promise<{
 
   return { user, grantStatus: grant?.status ?? "inert" };
 }
+
+export type ReportsViewerRole = "student" | "admin" | "restricted_reports";
+
+export interface ReportsAccess {
+  user: SessionUser;
+  viewerRole: ReportsViewerRole;
+  /** Whether this viewer is currently allowed to see report data — access is
+   * re-checked on every call, never cached, so a revoke takes effect immediately,
+   * even mid-session. */
+  allowed: boolean;
+}
+
+/**
+ * The one gate for the shared Reports dashboard (Phase 8), covering all three
+ * possible viewers: the student (always allowed, it's her own data), the admin
+ * (gated by the student's own parent_access_enabled toggle — CLAUDE.md rule #5, a
+ * separate mechanism from access_grants), and a restricted_reports account (gated by
+ * its own active access_grants row, per Phase 2). Redirects away entirely for anyone
+ * who isn't one of those three roles; returns `allowed: false` rather than
+ * redirecting when the role is right but access isn't currently granted, so the page
+ * can render a plain "not currently available" state instead of a broken one.
+ */
+export async function requireReportsAccess(): Promise<ReportsAccess> {
+  const user = await getSessionUser();
+  if (!user) redirect("/login");
+
+  if (user.role === "student") {
+    return { user, viewerRole: "student", allowed: true };
+  }
+
+  const supabase = await createClient();
+
+  if (user.role === "admin") {
+    const { data: student } = await supabase
+      .from("users")
+      .select("parent_access_enabled")
+      .eq("role", "student")
+      .maybeSingle();
+    return { user, viewerRole: "admin", allowed: student?.parent_access_enabled ?? false };
+  }
+
+  const { data: grant } = await supabase
+    .from("access_grants")
+    .select("status")
+    .eq("grantee_user_id", user.id)
+    .eq("scope", "reports")
+    .maybeSingle();
+
+  return { user, viewerRole: "restricted_reports", allowed: (grant?.status ?? "inert") === "active" };
+}

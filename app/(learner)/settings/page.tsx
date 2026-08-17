@@ -33,7 +33,20 @@ export default async function SettingsPage() {
 
       <AppearanceSection />
 
-      {user.role === "student" && <StudentPrivacySection userId={user.id} />}
+      {user.role === "student" && (
+        <>
+          <StudentPrivacySection userId={user.id} />
+          <div>
+            <CardLabel className="mb-2 mt-0">Reports</CardLabel>
+            <Card>
+              <Link href="/reports" className="flex items-center justify-between text-sm font-medium">
+                View my Reports
+                <span className="text-ink-soft">›</span>
+              </Link>
+            </Card>
+          </div>
+        </>
+      )}
 
       {user.role === "admin" && <AdminAccountSections />}
 
@@ -101,6 +114,21 @@ async function AdminAccountSections() {
               No one has created a reports-only account yet.
             </p>
           )}
+        </Card>
+      </div>
+
+      <div>
+        <CardLabel className="mb-2 mt-0">Reports</CardLabel>
+        <Card>
+          <Link href="/reports" className="flex items-center justify-between text-sm font-medium">
+            <span>
+              View reports
+              <span className="mt-0.5 block text-xs font-normal text-ink-soft">
+                Only visible when Jalisa has turned on parent access from her own Settings.
+              </span>
+            </span>
+            <span className="shrink-0 text-ink-soft">›</span>
+          </Link>
         </Card>
       </div>
 
