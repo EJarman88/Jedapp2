@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     "/lessons/[slug]": ["./content/lessons/data/**/*.json"],
   },
+  // Default 1MB is too small for homework-photo uploads (startHelpSession passes
+  // base64 image data straight through as a Server Action argument).
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "25mb",
+    },
+  },
 };
 
 export default nextConfig;
