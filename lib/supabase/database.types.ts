@@ -413,6 +413,14 @@ export interface Database {
         Args: Record<string, never>;
         Returns: boolean;
       };
+      reportable_extended_responses: {
+        Args: { target_user_id: string };
+        Returns: {
+          id: string;
+          privacy_status: string;
+          submitted_at: string;
+        }[];
+      };
     };
     Enums: Record<string, never>;
   };

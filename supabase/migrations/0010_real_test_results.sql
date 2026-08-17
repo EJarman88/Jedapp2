@@ -42,3 +42,35 @@ create policy "restricted reports reads real test results when granted"
       where ag.grantee_user_id = auth.uid() and ag.scope = 'reports' and ag.status = 'active'
     )
   );
+
+-- Bug fix (still within Phase 8, not yet shipped): the trait-trends section of the
+-- reports dashboard needs to know which extended_responses exist, their privacy
+-- status, and submission order — but extended_responses has deliberately NO policy
+-- for admin/restricted (Phase 6, so raw_text can never leak to them). That lockdown
+-- correctly blocks raw_text, but it also blocked these three harmless columns, which
+-- broke trait trends + the privacy summary line for every non-student viewer.
+--
+-- Fix: a SECURITY DEFINER function that returns only the safe columns — raw_text
+-- structurally cannot leak through it, because the function's return type doesn't
+-- include it, regardless of what future app code does with the result. This is the
+-- narrow exception to "no restricted-role policy on this table, ever" — it's a
+-- different, safer mechanism, not a policy on the table itself.
+create or replace function public.reportable_extended_responses(target_user_id uuid)
+returns table (id uuid, privacy_status text, submitted_at timestamptz)
+language sql
+security definer
+stable
+set search_path = public
+as $$
+  select er.id, er.privacy_status, er.submitted_at
+  from public.extended_responses er
+  where er.user_id = target_user_id
+    and (
+      (public.current_user_role() = 'student' and target_user_id = auth.uid())
+      or public.current_user_role() = 'admin'
+      or public.has_active_reports_grant(auth.uid())
+    )
+  order by er.submitted_at asc;
+$$;
+
+grant execute on function public.reportable_extended_responses(uuid) to authenticated;

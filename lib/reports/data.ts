@@ -74,11 +74,12 @@ export async function getIncentiveProgress(studentUserId: string): Promise<Incen
 export async function getTraitTrends(studentUserId: string): Promise<TraitTrends> {
   const supabase = await createClient();
 
-  const { data: responses } = await supabase
-    .from("extended_responses")
-    .select("id, privacy_status")
-    .eq("user_id", studentUserId)
-    .order("submitted_at", { ascending: true });
+  // extended_responses has no admin/restricted RLS policy at all (Phase 6 lockdown,
+  // so raw_text never leaks) — this RPC returns only the safe columns for whichever
+  // viewer is allowed to see them, see migration 0010.
+  const { data: responses } = await supabase.rpc("reportable_extended_responses", {
+    target_user_id: studentUserId,
+  });
 
   const responseIds = (responses ?? []).map((r) => r.id);
   const traitRows =
